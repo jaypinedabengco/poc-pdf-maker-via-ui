@@ -81,49 +81,63 @@ export default {
               pageMargins: [20, 80, 20, 60],
               header: {
                 margin: [20, 20, 20, 10],
-                columns: [
-                  {
-                    stack: [
+                table: {
+                  widths: ["*", "*"],
+                  heights: [20, 50, 70],
+                  body: [
+                    [
                       {
-                        columns: [
+                        stack: [
                           {
-                            text: "Entry notice",
-                            bold: true,
-                            margin: [0, 0, 5, 0],
-                            fontSize: 15,
-                            width: "auto"
+                            columns: [
+                              {
+                                text: "Entry notice",
+                                bold: true,
+                                fontSize: 15,
+                                margin: [0,0,5,0],
+                                width: "auto"
+                              },
+                              {
+                                text: "(Form 9)",
+                                fontSize: 15,
+                                width: "auto"
+                              }
+                            ]
                           },
                           {
-                            text: {
-                              text: "(Form 9)",
-                              fontSize: 15,
-                              width: "auto"
-                            }
-                          }
-                        ]
+                            text:
+                              "Residential Tenancies and Rooming Accomodation Act 2008",
+                            italics: true,
+                            fontSize: 8
+                          },
+                          {
+                            text: "(Sections 192-199)",
+                            italics: true,
+                            fontSize: 8
+                          },
+                        ],
+                        border: [false, false, false, true]
                       },
                       {
-                        text: "Residential Tenancies and Rooming Accomodation Act 2008",
-                        italics: true,
-                        fontSize: 8
-                      },
-                      {
-                        text: "(Sections 192-199)",
-                        italics: true,
-                        fontSize: 8
+                        image: base64_logo_image,
+                        width: 100,
+                        margin: [0,0,0,5],
+                        alignment: "right", 
+                        border: [false, false, false, true]
                       }
                     ]
+                  ]
+                }
+              },
+              content: [
+                  {
+                      text: 'hello', 
+                      pageBreak: 'after'
                   },
                   {
-                    image: base64_logo_image,
-                    width: 80,
-                    alignment: "right"
+                      text: 'world'
                   }
-                ]
-              },
-              content: {
-                text: "hello owwlrd"
-              }
+              ]
             };
             pdfMake.createPdf(docDefinition).getDataUrl(dataUrl => {
               this.base64PreviewSrc = dataUrl;
