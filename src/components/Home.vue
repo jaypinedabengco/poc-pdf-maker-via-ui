@@ -11,21 +11,30 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
-  data () {
+  name: "HelloWorld",
+  data() {
     return {
       demos: [
         {
-          name: 'jsPDF', 
-          title: 'jsPDF Base Demo', 
-          route: '/jspdf/base-demo'
+          name: "jsPDF",
+          title: "jsPDF Base Demo",
+          route: "/jspdf/base-demo"
+        },
+        {
+          name: "pdfMake View",
+          title: "pdfMake View",
+          route: "/pdfmake/view"
+        },
+        {
+          name: "pdfMake Create",
+          title: "pdfMake Create",
+          route: "/pdfmake/create"
         }
       ]
-    }
+    };
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>
