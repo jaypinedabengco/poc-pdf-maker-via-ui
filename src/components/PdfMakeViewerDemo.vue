@@ -14,7 +14,7 @@
     </div>
 
     <div id="pdf-form-preview-container">
-        <iframe v-if="base64PreviewSrc" type="application/pdf" :src="base64PreviewSrc" width="100%" height="500px;">
+        <iframe v-if="base64PreviewSrc" type="application/pdf" :src="base64PreviewSrc" width="100%" height="800px;">
         </iframe>
         <div v-else>Building....</div>
     </div>

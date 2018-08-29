@@ -4,6 +4,7 @@ import Home from '@/components/Home';
 import JsPdfBaseDemo from '@/components/JsPdfBaseDemo';
 import PdfMakeViewerDemo from '@/components/PdfMakeViewerDemo';
 import PdfMakeCreatorDemo from '@/components/PdfMakeCreatorDemo';
+import ErrorNotFound from '@/components/ErrorNotFound';
 
 Vue.use(Router);
 
@@ -33,6 +34,14 @@ export default new Router({
       path: '/pdfmake/create',
       name: 'pdfmakeCreatorDemo',
       component: PdfMakeCreatorDemo
+    }, 
+    {
+      path: '/404', 
+      component: ErrorNotFound
+    },
+    {
+      path: '*', 
+      redirect: '/404'
     }
   ]
 });
