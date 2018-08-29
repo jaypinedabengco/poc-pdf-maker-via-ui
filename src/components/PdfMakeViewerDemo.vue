@@ -2,9 +2,12 @@
   <div>
     <h1>PDFMake Viewer Demo</h1>
 
-    <div id="pdf-form-container">
+    <div v-if="formDefinition" id="pdf-form-container">
         <form>
-
+            <div v-for="(form_input) in formDefinition.form_body" v-bind:key="form_input.id">
+                <label :for="form_input.id">{{form_input.label.value}}</label>
+                <input @change="updateFromForm" v-model="form_input.value" v-if="form_input.type == 'text'" type="text" :name="form_input.id"/>
+            </div>
         </form>
 
         <button @click="updateFromForm">update</button>
@@ -32,12 +35,16 @@ pdfMake.vfs = vfs;
 export default {
   name: "PdfMakeViewerDemo",
   mixins: [pdfMakeBuilderMixin],
+
+  // -- DATA
   data() {
     return {
       formDefinition: null,
       base64PreviewSrc: null
     };
   },
+
+  // -- CREATED
   created() {
     // get form data
     this.getFormDefinition()
@@ -48,6 +55,8 @@ export default {
       .then(() => console.log("successfully built form"))
       .catch(err => console.log("something went wrong", err));
   },
+
+  // -- METHODS
   methods: {
     getFormDefinition() {
       return new Promise((resolve, reject) => {
@@ -57,14 +66,27 @@ export default {
             {
               id: "123-firstname",
               type: "text",
-              width: "50%",
-              label: "Firstname"
+              width: "500",
+              label: {
+                value: "Firstname",
+                margin: [0, 0, 0, 0],
+                bold: true
+              },
+              inputLine: {
+                type: "box"
+              }
             },
             {
               id: "123-lastname",
               type: "text",
-              width: "50%",
-              label: "Lastname"
+              width: "500",
+              label: {
+                value: "Lastname",
+                margin: [0, 0, 0, 0]
+              },
+              inputLine: {
+                type: "dotted"
+              }
             }
           ]
         };
@@ -73,77 +95,30 @@ export default {
     },
     updateFromForm() {
       return new Promise((resolve, reject) => {
-        let logo_image = "/static/sample-data/images/header-logo/rta.png";
-        // convert image to base64
-        this.convertImageUrlToBase64ViaFileReader(logo_image)
-          .then(base64_logo_image => {
+        // convert formDefinition to documentDefinition
+        Promise.all([
+          this.getDocumentHeaderDefinition(this.formDefinition),
+          this.getDocumentContentDefinition(this.formDefinition),
+          this.getDocumentFooterDefinition(this.formDefinition)
+        ])
+          .then(definitions => {
+            let headerDefinition = definitions[0];
+            let contentDefinition = definitions[1];
+            let footerDefinition = definitions[2];
+
             let docDefinition = {
               pageMargins: [20, 80, 20, 60],
-              header: {
-                margin: [20, 20, 20, 10],
-                table: {
-                  widths: ["*", "*"],
-                  heights: [20, 50, 70],
-                  body: [
-                    [
-                      {
-                        stack: [
-                          {
-                            columns: [
-                              {
-                                text: "Entry notice",
-                                bold: true,
-                                fontSize: 15,
-                                margin: [0,0,5,0],
-                                width: "auto"
-                              },
-                              {
-                                text: "(Form 9)",
-                                fontSize: 15,
-                                width: "auto"
-                              }
-                            ]
-                          },
-                          {
-                            text:
-                              "Residential Tenancies and Rooming Accomodation Act 2008",
-                            italics: true,
-                            fontSize: 8
-                          },
-                          {
-                            text: "(Sections 192-199)",
-                            italics: true,
-                            fontSize: 8
-                          },
-                        ],
-                        border: [false, false, false, true]
-                      },
-                      {
-                        image: base64_logo_image,
-                        width: 100,
-                        margin: [0,0,0,5],
-                        alignment: "right", 
-                        border: [false, false, false, true]
-                      }
-                    ]
-                  ]
-                }
-              },
-              content: [
-                  {
-                      text: 'hello', 
-                      pageBreak: 'after'
-                  },
-                  {
-                      text: 'world'
-                  }
-              ]
+              header: headerDefinition,
+              content: contentDefinition,
+              footer: footerDefinition
             };
-            pdfMake.createPdf(docDefinition).getDataUrl(dataUrl => {
+
+            return pdfMake.createPdf(docDefinition).getDataUrl(dataUrl => {
               this.base64PreviewSrc = dataUrl;
               resolve(dataUrl);
             });
           })
+          .then(() => console.log("successfully updated"))
           .catch(err => console.log("issue", err));
       });
     }
