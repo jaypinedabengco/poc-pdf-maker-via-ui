@@ -6,11 +6,11 @@
         <form>
             <div v-for="(form_input) in formDefinition.form_body" v-bind:key="form_input.id">
                 <label :for="form_input.id">{{form_input.label.value}}</label>
-                <input @change="updateFromForm" v-model="form_input.value" v-if="form_input.type == 'text'" type="text" :name="form_input.id"/>
+                <input @change="updatePDFPreview" v-model="form_input.value" v-if="form_input.type == 'text'" type="text" :name="form_input.id"/>
             </div>
         </form>
 
-        <button @click="updateFromForm">update</button>
+        <button @click="updatePDFPreview">update</button>
     </div>
 
     <div id="pdf-form-preview-container">
@@ -24,7 +24,8 @@
 <script>
 import * as pdfMake from "pdfmake/build/pdfmake.js";
 import vfsFonts from "pdfmake/build/vfs_fonts";
-import pdfMakeBuilderMixin from "@/mixins/pdfMakeBuilderMixin.ts";
+import pdfMakeBuilderMixin from "@/mixins/pdfMakeBuilderMixin";
+import axios from "axios";
 
 // initialize vfsFonts, there seems
 // to be an issue with loading fonts
@@ -39,6 +40,7 @@ export default {
   // -- DATA
   data() {
     return {
+      formName: null,
       formDefinition: null,
       base64PreviewSrc: null
     };
@@ -46,54 +48,85 @@ export default {
 
   // -- CREATED
   created() {
+      console.log();
+
+    // set formName
+    this.formName = this.$route.params.form_name;
+
     // get form data
-    this.getFormDefinition()
+    this.getFormDefinition(this.formName)
       // set data form definition
       .then(formDefinition => (this.formDefinition = formDefinition))
       //trigger form build
-      .then(() => this.updateFromForm())
+      .then(() => this.updatePDFPreview())
       .then(() => console.log("successfully built form"))
-      .catch(err => console.log("something went wrong", err));
+      .catch(err => {
+          this.formDefinition = null;
+          console.log("something went wrong", err)
+          alert(err);
+      });
   },
 
   // -- METHODS
   methods: {
-    getFormDefinition() {
-      return new Promise((resolve, reject) => {
-        // build
-        let formDefinition = {
-          form_body: [
-            {
-              id: "123-firstname",
-              type: "text",
-              width: "500",
-              label: {
-                value: "Firstname",
-                margin: [0, 0, 0, 0],
-                bold: true
-              },
-              inputLine: {
-                type: "box"
-              }
-            },
-            {
-              id: "123-lastname",
-              type: "text",
-              width: "500",
-              label: {
-                value: "Lastname",
-                margin: [0, 0, 0, 0]
-              },
-              inputLine: {
-                type: "dotted"
-              }
-            }
-          ]
-        };
-        resolve(formDefinition);
-      });
+    getFormDefinition(form_name) {
+        // get form
+        return axios
+            .get(`/static/sample-data/json/formDefinition/${form_name}.json`)
+            .then(result => {
+                return result.data;
+            });
     },
-    updateFromForm() {
+
+
+    /**
+     * 
+     */
+    updatePDFPreview() {
+        return new Promise((resolve, reject) => {
+            return Promise.resolve()
+                .then(() => this.getDocDefinitionFromAPI())
+                .then(docDefinition => {
+                    return this.getPDFInBase64(pdfMake.createPdf(docDefinition))
+                })
+                // set to 'pdfInBase64' data
+                .then(pdfInBase64 => this.base64PreviewSrc = pdfInBase64)
+                .then(resolve)
+                .catch(reject);
+        });
+        // will use api 
+        this.getDocDefinitionFromAPI()
+            .then(docDefinition => {
+                // convert to base64
+              pdfMake.createPdf(docDefinition).getDataUrl()
+              this.base64PreviewSrc = dataUrl;
+              resolve(dataUrl);                
+            });
+
+    },
+
+    /**
+     * Build doc definition via API
+     * - simulate if doc definition 
+     *   building is done via API
+     */
+    getDocDefinitionFromAPI() {
+        // target behaviour is that we send field id & value
+        // along with form id or something...
+        // & backend api will auto build the doc definition along with content
+        return axios
+            .get(`/static/sample-data/json/docDefinition/${this.formName}.json`)
+            .then(result => {
+                return result.data;
+            });
+    },
+
+    /**
+     * Build doc definition using builder
+     * indicated on client local services
+     * // under construction
+     */
+    getDocDefinitionFromForm() {
       return new Promise((resolve, reject) => {
         // convert formDefinition to documentDefinition
         Promise.all([
@@ -112,14 +145,8 @@ export default {
               content: contentDefinition,
               footer: footerDefinition
             };
-
-            return pdfMake.createPdf(docDefinition).getDataUrl(dataUrl => {
-              this.base64PreviewSrc = dataUrl;
-              resolve(dataUrl);
-            });
-          })
-          .then(() => console.log("successfully updated"))
-          .catch(err => console.log("issue", err));
+            return resolve(docDefinition);
+          });
       });
     }
   }

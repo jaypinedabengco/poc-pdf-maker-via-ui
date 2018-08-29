@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from '@/components/Home'
-import JsPdfBaseDemo from '@/components/JsPdfBaseDemo'
-import PdfMakeViewerDemo from '@/components/PdfMakeViewerDemo'
-import PdfMakeCreatorDemo from '@/components/PdfMakeCreatorDemo'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Home from '@/components/Home';
+import JsPdfBaseDemo from '@/components/JsPdfBaseDemo';
+import PdfMakeViewerDemo from '@/components/PdfMakeViewerDemo';
+import PdfMakeCreatorDemo from '@/components/PdfMakeCreatorDemo';
 
 Vue.use(Router);
 
@@ -25,7 +25,7 @@ export default new Router({
       component: JsPdfBaseDemo
     }, 
     {
-      path: '/pdfmake/view',
+      path: '/pdfmake/view/:form_name',
       name: 'pdfmakeViewerDemo',
       component: PdfMakeViewerDemo
     }, 

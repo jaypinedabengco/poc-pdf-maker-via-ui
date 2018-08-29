@@ -1,0 +1,38 @@
+{
+  "form_body": [{
+      "id": "123-firstname",
+      "type": "text",
+      "width": "500",
+      "label": {
+        "value": "Firstname",
+        "margin": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "bold": true
+      },
+      "inputLine": {
+        "type": "box"
+      }
+    },
+    {
+      "id": "123-lastname",
+      "type": "text",
+      "width": "500",
+      "label": {
+        "value": "Lastname",
+        "margin": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "inputLine": {
+        "type": "dotted"
+      }
+    }
+  ]
+}
