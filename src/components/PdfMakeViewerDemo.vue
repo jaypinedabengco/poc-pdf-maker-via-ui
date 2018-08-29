@@ -42,6 +42,7 @@ export default {
     return {
       formName: null,
       formDefinition: null,
+      baseDefinition: null,
       base64PreviewSrc: null
     };
   },
@@ -85,6 +86,7 @@ export default {
     updatePDFPreview() {
         return new Promise((resolve, reject) => {
             return Promise.resolve()
+                // will use api 
                 .then(() => this.getDocDefinitionFromAPI())
                 .then(docDefinition => {
                     return this.getPDFInBase64(pdfMake.createPdf(docDefinition))
@@ -94,15 +96,6 @@ export default {
                 .then(resolve)
                 .catch(reject);
         });
-        // will use api 
-        this.getDocDefinitionFromAPI()
-            .then(docDefinition => {
-                // convert to base64
-              pdfMake.createPdf(docDefinition).getDataUrl()
-              this.base64PreviewSrc = dataUrl;
-              resolve(dataUrl);                
-            });
-
     },
 
     /**
