@@ -1,12 +1,9 @@
-<template>
-  <div>
-    <h1>PDF to HTMLs</h1>
-    <ul>
-      <li v-for="(demo) in demos" v-bind:key="demo.name">
-        <router-link :to="demo.route">{{demo.title}}</router-link>
-      </li>
-    </ul>
-  </div>
+<template lang="pug">
+  div
+    h1 PDF to HTMLs
+    ul
+      li(v-for="demo in demos" v-bind:key="demo.name") 
+        router-link(:to="demo.route") {{demo.title}}
 </template>
 
 <script>

@@ -5,6 +5,8 @@ import JsPdfBaseDemo from '@/components/JsPdfBaseDemo';
 import PdfMakeViewerDemo from '@/components/PdfMakeViewerDemo';
 import PdfMakeCreatorDemo from '@/components/PdfMakeCreatorDemo';
 import ErrorNotFound from '@/components/ErrorNotFound';
+import TestPugAndSass from '@/components/TestPugAndSass';
+import RecursiveComponentClient from '@/components/RecursiveComponentClient';
 
 Vue.use(Router);
 
@@ -35,6 +37,14 @@ export default new Router({
       name: 'pdfmakeCreatorDemo',
       component: PdfMakeCreatorDemo
     }, 
+    {
+      path: '/test-pug-and-scss', 
+      component: TestPugAndSass
+    },
+    {
+      path: '/recursive-client-test', 
+      component: RecursiveComponentClient
+    },
     {
       path: '/404', 
       component: ErrorNotFound
