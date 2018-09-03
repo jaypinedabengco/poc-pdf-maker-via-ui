@@ -12,7 +12,7 @@
             span(v-else)
                 | unknown type of {{recursiveData.type}}
             div.next-line(v-if="recursiveData.children")
-                recursive-component(v-for="recursiveChildData in recursiveData.children" :recursive-data="recursiveChildData")
+                recursive-component(v-for="recursiveChildData in recursiveData.children" v-bind:key="recursiveChildData.ref_id" :recursive-data="recursiveChildData")
 </template>
 
 <script>
