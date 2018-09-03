@@ -184,6 +184,44 @@ export default {
         };
         return resolve(footerDefinition);
       });
+    },
+    /**
+     * 
+     * @param {*} documentDefinition 
+     * @param {*} formDefinition 
+     */
+    updateDocumentDefinitionBasedOnFormDefinition(documentDefinition, formDefinition) {
+      return new Promise((resolve, reject) => {
+        console.log(documentDefinition, formDefinition);
+
+        // get field values
+        formsBuilderService.getAllFieldReferenceIdAndValuesFromFormDefinition(formDefinition)
+          .then(fieldReferenceAndValues => {
+
+            // convert from object to String
+            let contentInJSONString = JSON.stringify(documentDefinition.content);
+            fieldReferenceAndValues.forEach(ref_id_and_value => {
+
+              // if value is empty String (''), then replace with spaced string (' ')
+              // to prevent empty looking container
+              let value = ref_id_and_value.value == '' ? ' ' : ref_id_and_value.value;
+              let regex = `{{${ref_id_and_value.ref_id}}}`;
+              contentInJSONString = contentInJSONString.replace(regex, value);
+            });
+
+            // remove all 
+
+            // convert from text to string
+            return JSON.parse(contentInJSONString);
+          })
+          // update document definition content
+          .then(documentDefinitionContent => {
+            documentDefinition.content = documentDefinitionContent;
+            return documentDefinition;
+          })
+          .then(resolve)
+          .catch(reject);
+      });
     }
   }
 };

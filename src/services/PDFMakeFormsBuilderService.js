@@ -68,5 +68,64 @@ export default {
         return reject(error);
       };
     });
+  }, 
+
+  /**
+   * * Array of objects
+   *  * ref_id
+   *  * value
+   *  * type
+   * @param {*} formDefinition 
+   */
+  getAllFieldReferenceIdAndValuesFromFormDefinition(formDefinition){    
+    return new Promise((resolve, reject) => {
+
+      let field_references_and_values = [];
+
+      // recursive function to get all content
+      function recursiveContentGetter(childFormDefinition){
+
+        let ref_and_value = {
+          ref_id: childFormDefinition.ref_id,
+          value: childFormDefinition.value,  // if empty
+          type: childFormDefinition.type
+        };
+
+        // add logic here for type based checker
+        if ( ref_and_value.type == 'container' ) { // if container, then do nothing..
+        } else {
+          // if text
+          // if checkbox 
+          field_references_and_values.push(ref_and_value);
+        }
+
+        if ( childFormDefinition.children ){
+          childFormDefinition.children.forEach(innerChildFormDefinition => {
+            recursiveContentGetter(innerChildFormDefinition);
+          });
+        } 
+      }
+
+      // trigger
+      recursiveContentGetter(formDefinition);
+
+      return resolve(field_references_and_values);
+
+    });
+
+    // let response_content = {
+    //   ref_id: formDefinition.ref_id, 
+    //   value: formDefinition.value
+    // };
+
+    // do logics here
+    // if checkbox, then do this
+
+    // if text, then do this
+
+    // if anything else, then do this
+
+    // return response_content;
+
   }
 };

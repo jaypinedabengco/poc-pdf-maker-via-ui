@@ -79,6 +79,7 @@ export default {
           Promise.resolve()
             // will use api
             .then(() => this.getDocDefinitionFromAPI())
+            .then(docDefinition => this.updateDocumentDefinitionBasedOnFormDefinition(docDefinition, this.formDefinition))
             .then(docDefinition => {
               return this.getPDFInBase64(pdfMake.createPdf(docDefinition));
             })
