@@ -1,38 +1,100 @@
 {
-  "form_body": [{
-      "id": "123-firstname",
-      "type": "text",
-      "width": "500",
-      "label": {
-        "value": "Firstnam",
-        "margin": [
-          0,
-          0,
-          0,
-          0
-        ],
-        "bold": true
-      },
-      "inputLine": {
-        "type": "box"
-      }
+  "ref_id": "random-ref-id-1",
+  "type": "container",
+  "children": [
+    {
+      "ref_id": "random-ref-id-1.1",
+      "type": "container",
+      "children": [
+        {
+          "ref_id": "random-ref-id-1.1.1",
+          "type": "label",
+          "value": "Name/s and address of the tenant/s"
+        },
+        {
+          "ref_id": "random-ref-id-1.1.2",
+          "type": "text",
+          "value": ""
+        },
+        {
+          "ref_id": "random-ref-id-1.1.3",
+          "type": "text",
+          "value": ""
+        },
+        {
+          "ref_id": "random-ref-id-1.1.4",
+          "type": "text",
+          "value": ""
+        },
+        {
+          "ref_id": "random-ref-id-1.1.5",
+          "type": "container",
+          "children_view": "horizontal",
+          "children": [
+            {
+              "ref_id": "random-ref-id-1.1.5.1",
+              "type": "text",
+              "value": ""
+            },
+            {
+              "ref_id": "random-ref-id-1.1.5.2",
+              "type": "label",
+              "value": "Postcode"
+            },
+            {
+              "ref_id": "random-ref-id-1.1.5.3",
+              "type": "text",
+              "value": ""
+            }
+          ]
+        }
+      ],
+      "children_view": "vertical"
     },
     {
-      "id": "123-lastname",
-      "type": "text",
-      "width": "500",
-      "label": {
-        "value": "Lastname",
-        "margin": [
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      "inputLine": {
-        "type": "dotted"
-      }
+      "ref_id": "random-ref-id-1.2",
+      "type": "container",
+      "children": [
+        {
+          "ref_id": "random-ref-id-1.2.1",
+          "type": "container",
+          "children_view": "horizontal",
+          "children": [
+            {
+              "ref_id": "random-ref-id-1.2.1.1",
+              "type": "label",
+              "value": "1 Address of the rental property "
+            },
+            {
+              "ref_id": "random-ref-id-1.2.1.2",
+              "type": "label",
+              "value": " (if different from above)"
+            }
+          ]
+        },
+        {
+          "ref_id": "random-ref-id-1.2.2",
+          "type": "container",
+          "children_view": "horizontal",
+          "children": [
+            {
+              "ref_id": "random-ref-id-1.2.2.1",
+              "type": "text",
+              "value": " "
+            },
+            {
+              "ref_id": "random-ref-id-1.2.2.2",
+              "type": "label",
+              "value": "Postcode"
+            },
+            {
+              "ref_id": "random-ref-id-1.2.2.3",
+              "type": "text",
+              "value": " "
+            }
+          ]
+        }
+      ]
     }
   ]
 }

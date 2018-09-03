@@ -7,44 +7,40 @@
                 | im a text {{recursiveData.value}}
             span(v-else-if="recursiveData.type == 'label'")
                 | im a label
-            span(v-else-if="recursiveData.type == 'container'")
-                | im a container
+            recursive-container-handler(v-else-if="recursiveData.type == 'container'" :recursive-data="recursiveData")
+                div.blah(slot="child-container")
+                    | hello
             span(v-else)
                 | unknown type of {{recursiveData.type}}
             div.next-line(v-if="recursiveData.children")
-                recursive-component(v-for="recursiveChildData in recursiveData.children" v-bind:key="recursiveChildData.ref_id" :recursive-data="recursiveChildData")
+                recursive-component(v-if="recursiveData.children" v-for="recursiveChildData in recursiveData.children" v-bind:key="recursiveChildData.ref_id" :recursive-data="recursiveChildData")
 </template>
 
 <script>
+import RecursiveContainerHandler from "@/components/RecursiveContainerHandler";
 
 export default {
   name: "RecursiveComponent",
-  props: ['recursiveData'],
-  created(){
+  props: ["recursiveData"],
+  components: {
+      "recursive-container-handler": RecursiveContainerHandler
   },
+  created() {},
 
   data() {
-    return {
-    };
-  }, 
+    return {};
+  },
 
   methods: {
-      processValue(value){
-          if ( !!value ){
-              return ` With value of ${value}`;
-          }
-          return '';
+    processValue(value) {
+      if (!!value) {
+        return ` With value of ${value}`;
       }
+      return "";
+    }
   }
-
 };
 </script>
 
 <style scoped>
-    .next-line {
-        margin-left: 10px;
-    }
-    .recursive-component {
-        margin-right: 10px;
-    }
 </style>
