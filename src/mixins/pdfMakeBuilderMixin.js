@@ -223,6 +223,24 @@ export default {
                 documentDefContainer.text = (formField.value == '') ? ' ' : formField.value;
               } else if (formField.type == 'checkbox') { // if checkbox
                 // do something about checkbox...
+                let checkbox_canvas = {
+                  "type": "polyline",
+                  "lineWidth": 2,
+                  "lineColor": "#000",
+                  "points": [{
+                      "x": 1,
+                      "y": 8
+                    },
+                    {
+                      "x": 4,
+                      "y": 10
+                    },
+                    {
+                      "x": 10,
+                      "y": 0
+                    }
+                  ]
+                };
               }
             });
 
