@@ -30,9 +30,32 @@ export default {
     "form-builder": FormBuilder
   },
 
+  watch: {
+    formDefinition: {
+      handler(){
+
+        // trigger update of pdf preview on change
+        // prevent always trigger update on change
+        // clear timeout if has one
+        if ( this.changeOngoingCheckerTimeout ) {
+          clearTimeout(this.changeOngoingCheckerTimeout);
+        }
+
+        // run timeout checker
+        this.changeOngoingCheckerTimeout = setTimeout(() => {
+          this.updatePDFPreview();
+        }, 500); // in millis
+
+      }, 
+      deep: true
+    }
+  },
+
   // -- DATA
   data() {
     return {
+      isChangeOngoing: false,
+      changeOngoingCheckerTimeout: null,
       formName: null,
       formDefinition: null,
       baseDefinition: null,
@@ -50,7 +73,7 @@ export default {
       // set data form definition
       .then(formDefinition => (this.formDefinition = formDefinition))
       //trigger form build
-      .then(() => this.updatePDFPreview())
+      // .then(() => this.updatePDFPreview())
       .then(() => console.log("successfully built form"))
       .catch(err => {
         this.formDefinition = null;
@@ -79,7 +102,12 @@ export default {
           Promise.resolve()
             // will use api
             .then(() => this.getDocDefinitionFromAPI())
-            .then(docDefinition => this.updateDocumentDefinitionBasedOnFormDefinition(docDefinition, this.formDefinition))
+            .then(docDefinition =>
+              this.updateDocumentDefinitionBasedOnFormDefinition(
+                docDefinition,
+                this.formDefinition
+              )
+            )
             .then(docDefinition => {
               return this.getPDFInBase64(pdfMake.createPdf(docDefinition));
             })

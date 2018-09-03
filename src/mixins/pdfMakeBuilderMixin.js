@@ -1,5 +1,8 @@
 // not sure why "@/services/..." not working or viewed as error
 import formsBuilderService from "../services/PDFMakeFormsBuilderService";
+import {
+  _
+} from "underscore";
 
 export default {
   methods: {
@@ -194,6 +197,52 @@ export default {
       return new Promise((resolve, reject) => {
         console.log(documentDefinition, formDefinition);
 
+        return Promise
+          .all([
+            formsBuilderService.getAllFieldReferenceIdAndValuesFromFormDefinition(formDefinition), // get form definition object values
+            formsBuilderService.getAllDocumentDefinitionObjectWithReferenceIds(documentDefinition), // get document definition objects
+          ])
+          .then(results => {
+
+            // update form defContainer based on searched content
+            let formDefinitionContents = results[0];
+            let documentDefinitionContainers = results[1];
+            _.each(documentDefinitionContainers, documentDefContainer => {
+              //get document
+              let formField = _.findWhere(formDefinitionContents, {
+                ref_id: documentDefContainer.ref_id
+              });
+
+              // if no formfield mapped
+              if (!formField) {
+                return; // continue..
+              }
+
+              if (formField.type == 'text') { // if text 
+                // if empty string (''), then change to ' '
+                documentDefContainer.text = (formField.value == '') ? ' ' : formField.value;
+              } else if (formField.type == 'checkbox') { // if checkbox
+                // do something about checkbox...
+              }
+            });
+
+            // return document definition, with updated content
+            return documentDefinition;
+          })
+          .then(resolve)
+          .catch(reject);
+      });
+    },
+
+    /**
+     * 
+     * @param {*} documentDefinition 
+     * @param {*} formDefinition 
+     */
+    updateDocumentDefinitionBasedOnFormDefinitionObselete(documentDefinition, formDefinition) {
+      return new Promise((resolve, reject) => {
+        console.log(documentDefinition, formDefinition);
+
         // get field values
         formsBuilderService.getAllFieldReferenceIdAndValuesFromFormDefinition(formDefinition)
           .then(fieldReferenceAndValues => {
@@ -210,6 +259,7 @@ export default {
             });
 
             // remove all 
+
 
             // convert from text to string
             return JSON.parse(contentInJSONString);

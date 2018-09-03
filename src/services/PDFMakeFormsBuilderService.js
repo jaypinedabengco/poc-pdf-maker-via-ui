@@ -68,7 +68,7 @@ export default {
         return reject(error);
       };
     });
-  }, 
+  },
 
   /**
    * * Array of objects
@@ -77,33 +77,33 @@ export default {
    *  * type
    * @param {*} formDefinition 
    */
-  getAllFieldReferenceIdAndValuesFromFormDefinition(formDefinition){    
+  getAllFieldReferenceIdAndValuesFromFormDefinition(formDefinition) {
     return new Promise((resolve, reject) => {
 
       let field_references_and_values = [];
 
       // recursive function to get all content
-      function recursiveContentGetter(childFormDefinition){
+      function recursiveContentGetter(childFormDefinition) {
 
         let ref_and_value = {
           ref_id: childFormDefinition.ref_id,
-          value: childFormDefinition.value,  // if empty
+          value: childFormDefinition.value, // if empty
           type: childFormDefinition.type
         };
 
         // add logic here for type based checker
-        if ( ref_and_value.type == 'container' ) { // if container, then do nothing..
+        if (ref_and_value.type == 'container') { // if container, then do nothing..
         } else {
           // if text
           // if checkbox 
           field_references_and_values.push(ref_and_value);
         }
 
-        if ( childFormDefinition.children ){
+        if (childFormDefinition.children) {
           childFormDefinition.children.forEach(innerChildFormDefinition => {
             recursiveContentGetter(innerChildFormDefinition);
           });
-        } 
+        }
       }
 
       // trigger
@@ -113,19 +113,42 @@ export default {
 
     });
 
-    // let response_content = {
-    //   ref_id: formDefinition.ref_id, 
-    //   value: formDefinition.value
-    // };
+  },
 
-    // do logics here
-    // if checkbox, then do this
+  /**
+   * 
+   * @param {*} documentDefinition 
+   */
+  getAllDocumentDefinitionObjectWithReferenceIds(documentDefinition) {
+    return new Promise((resolve, reject) => {
+      let objectsWithRefId = [];
+      function _getObjectsWithReferenceIds(targetObject){
+        // if array
+        if ( targetObject instanceof Array ){
+          targetObject.forEach(arrayContent => {
+            // pass array content to recursive
+            _getObjectsWithReferenceIds(arrayContent);
+          });
+        } else if ( targetObject instanceof Object ) { // object && has ref_id
 
-    // if text, then do this
+          // add to list
+          if ( targetObject.ref_id ){ 
+            objectsWithRefId.push(targetObject);
+          } 
 
-    // if anything else, then do this
+          // loop through object contents
+          let keys = Object.keys(targetObject);
+          keys.forEach(key => {
+            _getObjectsWithReferenceIds(targetObject[key]);
+          });
+        }
+      }
 
-    // return response_content;
+      // trigger recursive object getter
+      _getObjectsWithReferenceIds(documentDefinition);
 
+      return resolve(objectsWithRefId);
+
+    });
   }
 };
