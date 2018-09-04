@@ -4,6 +4,25 @@ import {
   _
 } from "underscore";
 
+const CANVAS_CHECK_FOR_CHECKBOX = {
+  "type": "polyline",
+  "lineWidth": 2,
+  "lineColor": "#000",
+  "points": [{
+      "x": 1,
+      "y": 8
+    },
+    {
+      "x": 4,
+      "y": 10
+    },
+    {
+      "x": 10,
+      "y": 0
+    }
+  ]
+};
+
 export default {
   methods: {
     convertJSONToDocDefinition(doc) {
@@ -223,38 +242,13 @@ export default {
                 documentDefContainer.text = (formField.value == '') ? ' ' : formField.value;
               } else if (formField.type == 'checkbox') { // if checkbox
 
-                // console.log(formField, documentDefContainer, (formField.value && documentDefContainer.canvas.length));
-                //empty
-                // documentDefContainer.canvas.splice(0, documentDefContainer.canvas.length);
-                // if (formField.value && documentDefContainer.canvas.length == 1) { // if checked && only empty checkbox
-                // if ( documentDefContainer.canvas.length == 2 )
-                // documentDefContainer.canvas.pop();
+                // add polyline canvas if checked (value == true)
                 if (formField.value && documentDefContainer.canvas.length == 1) {
-                  let checkLineCanvas = {
-                    "type": "polyline",
-                    "lineWidth": 2,
-                    "lineColor": "#000",
-                    "points": [{
-                        "x": 1,
-                        "y": 8
-                      },
-                      {
-                        "x": 4,
-                        "y": 10
-                      },
-                      {
-                        "x": 10,
-                        "y": 0
-                      }
-                    ]
-                  };
+                  let checkLineCanvas = JSON.parse(JSON.stringify(CANVAS_CHECK_FOR_CHECKBOX)); //clone
                   documentDefContainer.canvas.push(checkLineCanvas);
                 }
-                
-                // documentDefContainer.canvas.push(this.CANVAS_CHECK_FOR_CHECKBOX);
-                // } else if (!formField.value && documentDefContainer.canvas.length == 2) {
-                //   documentDefContainer.canvas.pop(); // remove check
-                // }
+              } else if (formField.type == 'label') {
+                documentDefContainer.text = formField.value;
               }
             });
 

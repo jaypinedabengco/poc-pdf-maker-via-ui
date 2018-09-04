@@ -36,7 +36,8 @@ function _removeIdFromList(id) {
     let target_index = list.indexOf(id);
     if (target_index == -1) {
       return reject(`unable to find id with value of ${id} from list`);
-    } 
+    }
+
     // remove
     list.splice(target_index, 1);
     localStorage.setItem(storage_form_id_list_name, JSON.stringify(list));
@@ -56,6 +57,18 @@ function _getAllList() {
     }
     return resolve(list);
   });
+}
+
+/**
+ * 
+ */
+function _createGuid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
 export default {
@@ -80,7 +93,6 @@ export default {
       return new Promise((resolve, reject) => {
         _getAllList()
           .then(ids => {
-            console.log('ids', ids);
             let fetchInformationsRequests = [];
             _.each(ids, id => {
               fetchInformationsRequests.push(
@@ -99,8 +111,6 @@ export default {
             return Promise.all(fetchInformationsRequests);
           })
           .then(formDefinitions => {
-            // build??
-            console.log('hey!', formDefinitions);
             return formDefinitions;
           })
           .then(resolve)
@@ -130,7 +140,7 @@ export default {
       return new Promise((resolve) => {
 
         let date_created = new Date().getTime();
-        let id = date_created + '-' + Math.ceil(Math.random() * 10000);
+        let id = _createGuid();
 
         // structure
         formDefinition.storageDefinition = {
@@ -182,8 +192,8 @@ export default {
       return new Promise((resolve) => {
         localStorage.removeItem(id);
         return _removeIdFromList(id)
-            .then(() => localStorage.removeItem(id)) // remove from local storage
-            .then(() => resolve('deleted'));
+          .then(() => localStorage.removeItem(id)) // remove from local storage
+          .then(() => resolve('deleted'));
       });
     }
   }

@@ -8,6 +8,7 @@
                 form-builder(:form-definition="formDefinition")
             button(@click="updatePDFPreview") update preview
             button(@click="saveOrUpdateForm") {{formDefinition.storageDefinition ? 'update' : 'save'}}
+            |  {{saveOrUpdateMessage}}
         div#pdf-form-preview-container
             iframe(v-if="base64PreviewSrc" type="application/pdf" :src="base64PreviewSrc" width="100%;" height="800px;")
             div(v-else) building
@@ -37,6 +38,9 @@ export default {
   watch: {
     formDefinition: {
       handler() {
+        // remove any update message
+        this.saveOrUpdateMessage = '';
+
         // trigger update of pdf preview on change
         // prevent always trigger update on change
         // clear timeout if has one
@@ -62,7 +66,8 @@ export default {
       formId: null,
       formDefinition: null,
       baseDefinition: null,
-      base64PreviewSrc: null
+      base64PreviewSrc: null, 
+      saveOrUpdateMessage: ''
     };
   },
 
@@ -70,7 +75,6 @@ export default {
   created() {
     // set formName
     this.formName = this.$route.params.form_name;
-    console.log(this.$route.params);
     // if has form id, then edit mode
     if ( this.$route.params.form_id ){
       this.formId = this.$route.params.form_id;
@@ -108,9 +112,9 @@ export default {
     saveOrUpdateForm() {
       this.saveOrUpdateFormDefinition(this.formName, this.formDefinition).then(
         updatedFormDefinition => {
-          console.log("updated form definition", updatedFormDefinition, this.formDefinition);
           this.$set(this.formDefinition['storageDefinition'], updatedFormDefinition.storageDefinition);
           this.$forceUpdate();
+          this.saveOrUpdateMessage = 'updated!';
         }
       );
     },

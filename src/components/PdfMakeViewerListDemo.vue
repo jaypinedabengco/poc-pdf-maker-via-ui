@@ -1,7 +1,7 @@
 <template lang="pug">
     div.pdfmake-viewer-list-demo
         h1 PDFMake Viewer Demo List
-        h3 Create
+        h3 Add
         li(v-for="form in forms" v-bind:key="form.id") 
           router-link(:to="`/pdfmake/view/${form.id}`") {{form.name}}
         h3 Edit
