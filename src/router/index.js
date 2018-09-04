@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/components/Home';
 import JsPdfBaseDemo from '@/components/JsPdfBaseDemo';
+import PdfMakeViewerListDemo from '@/components/PdfMakeViewerListDemo';
 import PdfMakeViewerDemo from '@/components/PdfMakeViewerDemo';
 import PdfMakeCreatorDemo from '@/components/PdfMakeCreatorDemo';
 import ErrorNotFound from '@/components/ErrorNotFound';
@@ -28,10 +29,19 @@ export default new Router({
       component: JsPdfBaseDemo
     }, 
     {
+      path: '/pdfmake/view', 
+      component: PdfMakeViewerListDemo
+    },
+    {
       path: '/pdfmake/view/:form_name',
-      name: 'pdfmakeViewerDemo',
+      name: 'pdfmakeViewerDemoCreate',
       component: PdfMakeViewerDemo
     }, 
+    {
+      path: '/pdfmake/view/:form_name/:form_id',
+      name: 'pdfmakeViewerDemoEdit',
+      component: PdfMakeViewerDemo
+    },     
     {
       path: '/pdfmake/create',
       name: 'pdfmakeCreatorDemo',

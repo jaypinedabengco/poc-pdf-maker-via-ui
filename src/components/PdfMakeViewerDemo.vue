@@ -1,10 +1,13 @@
 <template lang="pug">
     div
         h1 PDFMake Viewer Demo
+        router-link(:to="`/pdfmake/view`") Go Back to List
+        h3 for Form {{formName}}
         div#pdf-form-container(v-if="formDefinition")
             form
                 form-builder(:form-definition="formDefinition")
-            button(@click="updatePDFPreview") update
+            button(@click="updatePDFPreview") update preview
+            button(@click="saveOrUpdateForm") {{formDefinition.storageDefinition ? 'update' : 'save'}}
         div#pdf-form-preview-container
             iframe(v-if="base64PreviewSrc" type="application/pdf" :src="base64PreviewSrc" width="100%;" height="800px;")
             div(v-else) building
@@ -14,6 +17,7 @@
 import * as pdfMake from "pdfmake/build/pdfmake.js";
 import vfsFonts from "pdfmake/build/vfs_fonts";
 import pdfMakeBuilderMixin from "@/mixins/pdfMakeBuilderMixin";
+import pdfMakeDemoCRUDMixin from "@/mixins/pdfMakeDemoCRUDMixin";
 import axios from "axios";
 import FormBuilder from "@/components/FormBuilder";
 
@@ -25,19 +29,18 @@ pdfMake.vfs = vfs;
 
 export default {
   name: "PdfMakeViewerDemo",
-  mixins: [pdfMakeBuilderMixin],
+  mixins: [pdfMakeBuilderMixin, pdfMakeDemoCRUDMixin],
   components: {
     "form-builder": FormBuilder
   },
 
   watch: {
     formDefinition: {
-      handler(){
-
+      handler() {
         // trigger update of pdf preview on change
         // prevent always trigger update on change
         // clear timeout if has one
-        if ( this.changeOngoingCheckerTimeout ) {
+        if (this.changeOngoingCheckerTimeout) {
           clearTimeout(this.changeOngoingCheckerTimeout);
         }
 
@@ -45,8 +48,7 @@ export default {
         this.changeOngoingCheckerTimeout = setTimeout(() => {
           this.updatePDFPreview();
         }, 500); // in millis
-
-      }, 
+      },
       deep: true
     }
   },
@@ -57,6 +59,7 @@ export default {
       isChangeOngoing: false,
       changeOngoingCheckerTimeout: null,
       formName: null,
+      formId: null,
       formDefinition: null,
       baseDefinition: null,
       base64PreviewSrc: null
@@ -67,14 +70,20 @@ export default {
   created() {
     // set formName
     this.formName = this.$route.params.form_name;
+    console.log(this.$route.params);
+    // if has form id, then edit mode
+    if ( this.$route.params.form_id ){
+      this.formId = this.$route.params.form_id;
+    }
+
+    // get form definition , if no id, then get via api (fresh), if has one, then get from crud storage
+    let getFormDefinitionRequest = !this.formId ? this.getFreshFormDefinition(this.formName) : this.getFormDefinition(this.formId);
 
     // get form data
-    this.getFormDefinition(this.formName)
+    getFormDefinitionRequest
       // set data form definition
       .then(formDefinition => (this.formDefinition = formDefinition))
-      //trigger form build
-      // .then(() => this.updatePDFPreview())
-      .then(() => console.log("successfully built form"))
+      .then(() => console.log("successfully fetched form"))
       .catch(err => {
         this.formDefinition = null;
         console.log("something went wrong", err);
@@ -84,13 +93,26 @@ export default {
 
   // -- METHODS
   methods: {
-    getFormDefinition(form_name) {
+    getFreshFormDefinition(form_name) {
       // get form
       return axios
         .get(`/static/sample-data/json/formDefinition/${form_name}.json`)
         .then(result => {
           return result.data;
         });
+    },
+
+    /**
+     *
+     */
+    saveOrUpdateForm() {
+      this.saveOrUpdateFormDefinition(this.formName, this.formDefinition).then(
+        updatedFormDefinition => {
+          console.log("updated form definition", updatedFormDefinition, this.formDefinition);
+          this.$set(this.formDefinition['storageDefinition'], updatedFormDefinition.storageDefinition);
+          this.$forceUpdate();
+        }
+      );
     },
 
     /**
