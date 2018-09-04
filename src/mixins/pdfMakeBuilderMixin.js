@@ -195,8 +195,6 @@ export default {
      */
     updateDocumentDefinitionBasedOnFormDefinition(documentDefinition, formDefinition) {
       return new Promise((resolve, reject) => {
-        console.log(documentDefinition, formDefinition);
-
         return Promise
           .all([
             formsBuilderService.getAllFieldReferenceIdAndValuesFromFormDefinition(formDefinition), // get form definition object values
@@ -207,6 +205,8 @@ export default {
             // update form defContainer based on searched content
             let formDefinitionContents = results[0];
             let documentDefinitionContainers = results[1];
+
+            // check through all
             _.each(documentDefinitionContainers, documentDefContainer => {
               //get document
               let formField = _.findWhere(formDefinitionContents, {
@@ -222,25 +222,39 @@ export default {
                 // if empty string (''), then change to ' '
                 documentDefContainer.text = (formField.value == '') ? ' ' : formField.value;
               } else if (formField.type == 'checkbox') { // if checkbox
-                // do something about checkbox...
-                let checkbox_canvas = {
-                  "type": "polyline",
-                  "lineWidth": 2,
-                  "lineColor": "#000",
-                  "points": [{
-                      "x": 1,
-                      "y": 8
-                    },
-                    {
-                      "x": 4,
-                      "y": 10
-                    },
-                    {
-                      "x": 10,
-                      "y": 0
-                    }
-                  ]
-                };
+
+                // console.log(formField, documentDefContainer, (formField.value && documentDefContainer.canvas.length));
+                //empty
+                // documentDefContainer.canvas.splice(0, documentDefContainer.canvas.length);
+                // if (formField.value && documentDefContainer.canvas.length == 1) { // if checked && only empty checkbox
+                // if ( documentDefContainer.canvas.length == 2 )
+                // documentDefContainer.canvas.pop();
+                if (formField.value && documentDefContainer.canvas.length == 1) {
+                  let checkLineCanvas = {
+                    "type": "polyline",
+                    "lineWidth": 2,
+                    "lineColor": "#000",
+                    "points": [{
+                        "x": 1,
+                        "y": 8
+                      },
+                      {
+                        "x": 4,
+                        "y": 10
+                      },
+                      {
+                        "x": 10,
+                        "y": 0
+                      }
+                    ]
+                  };
+                  documentDefContainer.canvas.push(checkLineCanvas);
+                }
+                
+                // documentDefContainer.canvas.push(this.CANVAS_CHECK_FOR_CHECKBOX);
+                // } else if (!formField.value && documentDefContainer.canvas.length == 2) {
+                //   documentDefContainer.canvas.pop(); // remove check
+                // }
               }
             });
 

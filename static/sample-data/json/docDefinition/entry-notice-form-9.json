@@ -221,35 +221,15 @@
             "width": "auto"
           },
           {
-            "ref_id": "random-ref-id-ckbx-1",
-            "ref_group_id": "random-ref-id-ckbx-1",
+            "ref_id": "random-ref-id-1.3.2",
             "canvas": [{
-                "type": "rect",
-                "x": 0,
-                "y": 1,
-                "w": 10,
-                "h": 10,
-                "lineColor": "#000"
-              },
-              {
-                "type": "polyline",
-                "lineWidth": 2,
-                "lineColor": "#000",
-                "points": [{
-                    "x": 1,
-                    "y": 8
-                  },
-                  {
-                    "x": 4,
-                    "y": 10
-                  },
-                  {
-                    "x": 10,
-                    "y": 0
-                  }
-                ]
-              }
-            ],
+              "type": "rect",
+              "x": 0,
+              "y": 1,
+              "w": 10,
+              "h": 10,
+              "lineColor": "#000"
+            }],
             "margin": [
               20,
               0,
@@ -270,8 +250,7 @@
               0
             ],
             "width": "auto",
-            "ref_id": "random-ref-id-ckbx-2",
-            "ref_group_id": "random-ref-id-ckbx-1",
+            "ref_id": "random-ref-id-1.3.4",
             "canvas": [{
               "type": "rect",
               "x": 0,
@@ -293,8 +272,7 @@
               0
             ],
             "width": "auto",
-            "ref_id": "random-ref-id-ckbx-3",
-            "ref_group_id": "random-ref-id-ckbx-1",
+            "ref_id": "random-ref-id-1.3.6",
             "canvas": [{
               "type": "rect",
               "x": 0,
