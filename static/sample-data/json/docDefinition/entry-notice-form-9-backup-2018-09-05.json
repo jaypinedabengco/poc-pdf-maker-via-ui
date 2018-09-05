@@ -12,11 +12,15 @@
       20,
       20
     ],
-    "stack": [{
-        "columns": [{
-            "stack": [{
+    "stack": [
+      {
+        "columns": [
+          {
+            "stack": [
+              {
                 "fontSize": 14,
-                "text": [{
+                "text": [
+                  {
                     "text": "Entry notice ",
                     "bold": true
                   },
@@ -51,22 +55,25 @@
         "table": {
           "widths": "*",
           "body": [
-            [{
-              "text": "",
-              "border": [
-                false,
-                false,
-                false,
-                true
-              ]
-            }]
+            [
+              {
+                "text": "",
+                "border": [
+                  false,
+                  false,
+                  false,
+                  true
+                ]
+              }
+            ]
           ]
         }
       }
     ]
   },
   "content": {
-    "stack": [{
+    "stack": [
+      {
         "margin": [
           30,
           40,
@@ -78,72 +85,81 @@
             320
           ],
           "body": [
-            [{
-              "ref_id": "random-ref-id-1.1.1",
-              "border": [
-                false,
-                false,
-                false,
-                false
-              ],
-              "text": " ",
-              "bold": true
-            }],
-            [{
-              "border": [
-                false,
-                false,
-                false,
-                false
-              ],
-              "table": {
-                "widths": [
-                  "70%",
-                  "30%"
+            [
+              {
+                "ref_id": "random-ref-id-1.1.1",
+                "border": [
+                  false,
+                  false,
+                  false,
+                  false
                 ],
-                "body": [
-                  [{
-                      "ref_id": "random-ref-id-1.1.2",
-                      "text": " ",
-                      "colSpan": 2
-                    },
-                    ""
-                  ],
-                  [{
-                      "ref_id": "random-ref-id-1.1.3",
-                      "text": " ",
-                      "colSpan": 2
-                    },
-                    ""
-                  ],
-                  [{
-                      "ref_id": "random-ref-id-1.1.4",
-                      "text": " ",
-                      "colSpan": 2
-                    },
-                    ""
-                  ],
-                  [{
-                      "ref_id": "random-ref-id-1.1.5.1",
-                      "text": " "
-                    },
-                    {
-                      "columns": [{
-                          "ref_id": "random-ref-id-1.1.5.2",
-                          "text": " ",
-                          "width": "*"
-                        },
-                        {
-                          "ref_id": "random-ref-id-1.1.5.3",
-                          "text": " ",
-                          "width": "45%"
-                        }
-                      ]
-                    }
-                  ]
-                ]
+                "text": " ",
+                "bold": true
               }
-            }]
+            ],
+            [
+              {
+                "border": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "table": {
+                  "widths": [
+                    "70%",
+                    "30%"
+                  ],
+                  "body": [
+                    [
+                      {
+                        "ref_id": "random-ref-id-1.1.2",
+                        "text": " ",
+                        "colSpan": 2
+                      },
+                      ""
+                    ],
+                    [
+                      {
+                        "ref_id": "random-ref-id-1.1.3",
+                        "text": " ",
+                        "colSpan": 2
+                      },
+                      ""
+                    ],
+                    [
+                      {
+                        "ref_id": "random-ref-id-1.1.4",
+                        "text": " ",
+                        "colSpan": 2
+                      },
+                      ""
+                    ],
+                    [
+                      {
+                        "ref_id": "random-ref-id-1.1.5.1",
+                        "text": " "
+                      },
+                      {
+                        "columns": [
+                          {
+                            "ref_id": "random-ref-id-1.1.5.2",
+                            "text": " ",
+                            "width": "*"
+                          },
+                          {
+                            "ref_id": "random-ref-id-1.1.5.3",
+                            "text": " ",
+                            "width": "45%"
+                          }
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
           ]
         }
       },
@@ -154,7 +170,8 @@
           0,
           0
         ],
-        "columns": [{
+        "columns": [
+          {
             "ref_id": "random-ref-id-1.2.1.1",
             "text": " ",
             "bold": true,
@@ -186,12 +203,14 @@
             "25%"
           ],
           "body": [
-            [{
+            [
+              {
                 "ref_id": "random-ref-id-1.2.2.1",
                 "text": " "
               },
               {
-                "columns": [{
+                "columns": [
+                  {
                     "ref_id": "random-ref-id-1.2.2.2",
                     "text": " ",
                     "width": "*"
@@ -214,7 +233,8 @@
           0,
           0
         ],
-        "columns": [{
+        "columns": [
+          {
             "ref_id": "random-ref-id-1.3.1",
             "text": " 2 Notice issued by",
             "bold": true,
@@ -222,14 +242,16 @@
           },
           {
             "ref_id": "random-ref-id-1.3.2",
-            "canvas": [{
-              "type": "rect",
-              "x": 0,
-              "y": 1,
-              "w": 10,
-              "h": 10,
-              "lineColor": "#000"
-            }],
+            "canvas": [
+              {
+                "type": "rect",
+                "x": 0,
+                "y": 1,
+                "w": 10,
+                "h": 10,
+                "lineColor": "#000"
+              }
+            ],
             "margin": [
               20,
               0,
@@ -252,14 +274,16 @@
             ],
             "width": "auto",
             "ref_id": "random-ref-id-1.3.4",
-            "canvas": [{
-              "type": "rect",
-              "x": 0,
-              "y": 1,
-              "w": 10,
-              "h": 10,
-              "lineColor": "#000"
-            }]
+            "canvas": [
+              {
+                "type": "rect",
+                "x": 0,
+                "y": 1,
+                "w": 10,
+                "h": 10,
+                "lineColor": "#000"
+              }
+            ]
           },
           {
             "ref_id": "random-ref-id-1.3.5",
@@ -275,14 +299,16 @@
             ],
             "width": "auto",
             "ref_id": "random-ref-id-1.3.6",
-            "canvas": [{
-              "type": "rect",
-              "x": 0,
-              "y": 1,
-              "w": 10,
-              "h": 10,
-              "lineColor": "#000"
-            }]
+            "canvas": [
+              {
+                "type": "rect",
+                "x": 0,
+                "y": 1,
+                "w": 10,
+                "h": 10,
+                "lineColor": "#000"
+              }
+            ]
           },
           {
             "ref_id": "random-ref-id-1.3.7",
@@ -298,7 +324,8 @@
           0,
           0
         ],
-        "columns": [{
+        "columns": [
+          {
             "text": "Full name/trading name",
             "width": "*"
           },
@@ -321,12 +348,14 @@
             "25%"
           ],
           "body": [
-            [{
+            [
+              {
                 "ref_id": "",
                 "text": " "
               },
               {
-                "columns": [{
+                "columns": [
+                  {
                     "ref_id": "",
                     "text": " ",
                     "width": "*"
@@ -359,7 +388,8 @@
           0,
           0
         ],
-        "columns": [{
+        "columns": [
+          {
             "text": "Full name/trading name",
             "width": "*"
           },
@@ -382,8 +412,10 @@
             "25%"
           ],
           "body": [
-            [{
-                "columns": [{
+            [
+              {
+                "columns": [
+                  {
                     "margin": [
                       0,
                       0,
@@ -400,7 +432,8 @@
                 ]
               },
               {
-                "columns": [{
+                "columns": [
+                  {
                     "text": " ",
                     "width": "*"
                   },
@@ -412,8 +445,10 @@
                 ]
               }
             ],
-            [{
-                "columns": [{
+            [
+              {
+                "columns": [
+                  {
                     "margin": [
                       0,
                       0,
@@ -430,7 +465,8 @@
                 ]
               },
               {
-                "columns": [{
+                "columns": [
+                  {
                     "text": " ",
                     "width": "*"
                   },
@@ -442,8 +478,10 @@
                 ]
               }
             ],
-            [{
-                "columns": [{
+            [
+              {
+                "columns": [
+                  {
                     "margin": [
                       0,
                       0,
@@ -460,7 +498,8 @@
                 ]
               },
               {
-                "columns": [{
+                "columns": [
+                  {
                     "text": " ",
                     "width": "*"
                   },
@@ -492,9 +531,11 @@
           0,
           0
         ],
-        "columns": [{
+        "columns": [
+          {
             "width": "auto",
-            "stack": [{
+            "stack": [
+              {
                 "text": "Day",
                 "margin": [
                   0,
@@ -509,9 +550,11 @@
                     120
                   ],
                   "body": [
-                    [{
-                      "text": " "
-                    }]
+                    [
+                      {
+                        "text": " "
+                      }
+                    ]
                   ]
                 }
               }
@@ -531,7 +574,8 @@
               12,
               0
             ],
-            "stack": [{
+            "stack": [
+              {
                 "text": "Date",
                 "margin": [
                   0,
@@ -546,9 +590,11 @@
                     120
                   ],
                   "body": [
-                    [{
-                      "text": " "
-                    }]
+                    [
+                      {
+                        "text": " "
+                      }
+                    ]
                   ]
                 }
               }
@@ -556,7 +602,8 @@
           },
           {
             "width": "auto",
-            "stack": [{
+            "stack": [
+              {
                 "text": "Method of issue (e.g. email, post, in person)",
                 "margin": [
                   0,
@@ -571,9 +618,11 @@
                     120
                   ],
                   "body": [
-                    [{
-                      "text": " "
-                    }]
+                    [
+                      {
+                        "text": " "
+                      }
+                    ]
                   ]
                 }
               }
@@ -598,26 +647,24 @@
           0,
           0
         ],
-        "stack": [{
-            "margin": [
-              0,
-              0,
-              0,
-              2
-            ],
-            "columns": [{
-                "canvas": [{
-                  "type": "rect",
-                  "x": 0,
-                  "y": 1,
-                  "w": 10,
-                  "h": 10,
-                  "lineColor": "#000"
-                }],
+        "stack": [
+          {
+            "columns": [
+              {
+                "canvas": [
+                  {
+                    "type": "rect",
+                    "x": 0,
+                    "y": 1,
+                    "w": 10,
+                    "h": 10,
+                    "lineColor": "#000"
+                  }
+                ],
                 "width": "auto",
                 "margin": [
                   0,
-                  0,
+                  2,
                   5,
                   0
                 ]
@@ -628,28 +675,25 @@
             ]
           },
           {
-            "margin": [
-              0,
-              0,
-              0,
-              2
-            ],
-            "columns": [{
+            "columns": [
+              {
                 "width": "auto",
                 "margin": [
                   0,
-                  0,
+                  2,
                   5,
                   0
                 ],
-                "canvas": [{
-                  "type": "rect",
-                  "x": 0,
-                  "y": 1,
-                  "w": 10,
-                  "h": 10,
-                  "lineColor": "#000"
-                }]
+                "canvas": [
+                  {
+                    "type": "rect",
+                    "x": 0,
+                    "y": 1,
+                    "w": 10,
+                    "h": 10,
+                    "lineColor": "#000"
+                  }
+                ]
               },
               {
                 "text": "Inspect the property - short tenancy moveable dwelling (24 hours notice)"
@@ -657,28 +701,25 @@
             ]
           },
           {
-            "margin": [
-              0,
-              0,
-              0,
-              2
-            ],
-            "columns": [{
+            "columns": [
+              {
                 "width": "auto",
                 "margin": [
                   0,
-                  0,
+                  2,
                   5,
                   0
                 ],
-                "canvas": [{
-                  "type": "rect",
-                  "x": 0,
-                  "y": 1,
-                  "w": 10,
-                  "h": 10,
-                  "lineColor": "#000"
-                }]
+                "canvas": [
+                  {
+                    "type": "rect",
+                    "x": 0,
+                    "y": 1,
+                    "w": 10,
+                    "h": 10,
+                    "lineColor": "#000"
+                  }
+                ]
               },
               {
                 "text": "Carry out routine repairs or maintenance (24 hours notice)"
@@ -686,28 +727,25 @@
             ]
           },
           {
-            "margin": [
-              0,
-              0,
-              0,
-              2
-            ],
-            "columns": [{
+            "columns": [
+              {
                 "width": "auto",
                 "margin": [
                   0,
-                  0,
+                  2,
                   5,
                   0
                 ],
-                "canvas": [{
-                  "type": "rect",
-                  "x": 0,
-                  "y": 1,
-                  "w": 10,
-                  "h": 10,
-                  "lineColor": "#000"
-                }]
+                "canvas": [
+                  {
+                    "type": "rect",
+                    "x": 0,
+                    "y": 1,
+                    "w": 10,
+                    "h": 10,
+                    "lineColor": "#000"
+                  }
+                ]
               },
               {
                 "text": "Inspect completed repairs or maintenance (24 hours notice)"
@@ -715,31 +753,29 @@
             ]
           },
           {
-            "margin": [
-              0,
-              0,
-              0,
-              2
-            ],
-            "columns": [{
+            "columns": [
+              {
                 "width": "auto",
                 "margin": [
                   0,
-                  0,
+                  2,
                   5,
                   0
                 ],
-                "canvas": [{
-                  "type": "rect",
-                  "x": 0,
-                  "y": 1,
-                  "w": 10,
-                  "h": 10,
-                  "lineColor": "#000"
-                }]
+                "canvas": [
+                  {
+                    "type": "rect",
+                    "x": 0,
+                    "y": 1,
+                    "w": 10,
+                    "h": 10,
+                    "lineColor": "#000"
+                  }
+                ]
               },
               {
-                "text": [{
+                "text": [
+                  {
                     "text": "Comply with the "
                   },
                   {
@@ -754,31 +790,29 @@
             ]
           },
           {
-            "margin": [
-              0,
-              0,
-              0,
-              2
-            ],
-            "columns": [{
+            "columns": [
+              {
                 "width": "auto",
                 "margin": [
                   0,
-                  0,
+                  2,
                   5,
                   0
                 ],
-                "canvas": [{
-                  "type": "rect",
-                  "x": 0,
-                  "y": 1,
-                  "w": 10,
-                  "h": 10,
-                  "lineColor": "#000"
-                }]
+                "canvas": [
+                  {
+                    "type": "rect",
+                    "x": 0,
+                    "y": 1,
+                    "w": 10,
+                    "h": 10,
+                    "lineColor": "#000"
+                  }
+                ]
               },
               {
-                "text": [{
+                "text": [
+                  {
                     "text": "Comply with the "
                   },
                   {
@@ -793,28 +827,25 @@
             ]
           },
           {
-            "margin": [
-              0,
-              0,
-              0,
-              2
-            ],
-            "columns": [{
+            "columns": [
+              {
                 "width": "auto",
                 "margin": [
                   0,
-                  0,
+                  2,
                   5,
                   0
                 ],
-                "canvas": [{
-                  "type": "rect",
-                  "x": 0,
-                  "y": 1,
-                  "w": 10,
-                  "h": 10,
-                  "lineColor": "#000"
-                }]
+                "canvas": [
+                  {
+                    "type": "rect",
+                    "x": 0,
+                    "y": 1,
+                    "w": 10,
+                    "h": 10,
+                    "lineColor": "#000"
+                  }
+                ]
               },
               {
                 "text": "Show the property to a prospective purchaser or tenant (24 hours notice)"
@@ -822,28 +853,25 @@
             ]
           },
           {
-            "margin": [
-              0,
-              0,
-              0,
-              2
-            ],
-            "columns": [{
+            "columns": [
+              {
                 "width": "auto",
                 "margin": [
                   0,
-                  0,
+                  2,
                   5,
                   0
                 ],
-                "canvas": [{
-                  "type": "rect",
-                  "x": 0,
-                  "y": 1,
-                  "w": 10,
-                  "h": 10,
-                  "lineColor": "#000"
-                }]
+                "canvas": [
+                  {
+                    "type": "rect",
+                    "x": 0,
+                    "y": 1,
+                    "w": 10,
+                    "h": 10,
+                    "lineColor": "#000"
+                  }
+                ]
               },
               {
                 "text": "Allow a valuation of the property to be carried out (24 hours notice)"
@@ -851,28 +879,25 @@
             ]
           },
           {
-            "margin": [
-              0,
-              0,
-              0,
-              2
-            ],
-            "columns": [{
+            "columns": [
+              {
                 "width": "auto",
                 "margin": [
                   0,
-                  0,
+                  2,
                   5,
                   0
                 ],
-                "canvas": [{
-                  "type": "rect",
-                  "x": 0,
-                  "y": 1,
-                  "w": 10,
-                  "h": 10,
-                  "lineColor": "#000"
-                }]
+                "canvas": [
+                  {
+                    "type": "rect",
+                    "x": 0,
+                    "y": 1,
+                    "w": 10,
+                    "h": 10,
+                    "lineColor": "#000"
+                  }
+                ]
               },
               {
                 "text": "The property owner/manager believes, on reasonable grounds, that the property has been abandoned (24 hours notice)"
@@ -880,22 +905,25 @@
             ]
           },
           {
-            "columns": [{
+            "columns": [
+              {
                 "width": "auto",
                 "margin": [
                   0,
-                  0,
+                  2,
                   5,
                   0
                 ],
-                "canvas": [{
-                  "type": "rect",
-                  "x": 0,
-                  "y": 1,
-                  "w": 10,
-                  "h": 10,
-                  "lineColor": "#000"
-                }]
+                "canvas": [
+                  {
+                    "type": "rect",
+                    "x": 0,
+                    "y": 1,
+                    "w": 10,
+                    "h": 10,
+                    "lineColor": "#000"
+                  }
+                ]
               },
               {
                 "text": "Check the tenant has remedied a significant breach, if a Notice to remedy breach (Form 11) has expired (24 hours notice)"
@@ -913,21 +941,24 @@
       20,
       10
     ],
-    "stack": [{
+    "stack": [
+      {
         "table": {
           "widths": [
             "*"
           ],
           "body": [
-            [{
-              "text": "",
-              "border": [
-                false,
-                true,
-                false,
-                false
-              ]
-            }]
+            [
+              {
+                "text": "",
+                "border": [
+                  false,
+                  true,
+                  false,
+                  false
+                ]
+              }
+            ]
           ]
         }
       },
