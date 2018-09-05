@@ -1,7 +1,6 @@
 <template lang="pug">
     section.form-handler-checkbox
         input(type="checkbox" v-model="formDefinition.value" :name="formDefinition.ref_id")
-        slot(name="child-container")
 </template>
 
 <script>

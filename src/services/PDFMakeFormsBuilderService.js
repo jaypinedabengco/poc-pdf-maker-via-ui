@@ -52,14 +52,14 @@ export default {
       return fetch(imageUrl)
         .then(response => response.ok ? response.blob() : Promise.reject(response))
         .then(blob => {
-          if ( blob.type == 'text/html' ){
+          if (blob.type == 'text/html') {
             return Promise.reject(`File not found`);
           }
           let reader = new FileReader();
-          reader.readAsDataURL(blob); 
-          reader.onloadend = function() {
-              let base64data = reader.result;                
-              resolve(base64data);
+          reader.readAsDataURL(blob);
+          reader.onloadend = function () {
+            let base64data = reader.result;
+            resolve(base64data);
           };
         })
         .catch(reject);
@@ -107,11 +107,7 @@ export default {
       // recursive function to get all content
       let recursiveContentGetter = (childFormDefinition) => {
 
-        let ref_and_value = {
-          ref_id: childFormDefinition.ref_id,
-          value: childFormDefinition.value, // if empty
-          type: childFormDefinition.type
-        };
+        let ref_and_value = childFormDefinition;
 
         // add logic here for type based checker
         if (ref_and_value.type == 'container') { // if container, then do nothing..
@@ -172,5 +168,6 @@ export default {
       return resolve(objectsWithRefId);
 
     });
-  }
+  },
+
 };

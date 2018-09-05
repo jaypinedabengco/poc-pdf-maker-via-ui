@@ -154,22 +154,14 @@
           0,
           0
         ],
-        "columns": [{
+        "text": [{
             "ref_id": "random-ref-id-1.2.1.1",
             "text": " ",
-            "bold": true,
-            "width": "auto"
+            "bold": true
           },
           {
             "ref_id": "random-ref-id-1.2.1.2",
-            "text": " ",
-            "bold": false,
-            "margin": [
-              3,
-              0,
-              0,
-              0
-            ]
+            "text": " "
           }
         ]
       },
@@ -299,10 +291,12 @@
           0
         ],
         "columns": [{
+            "ref_id": "random-ref-id-1.4.1.1",
             "text": "Full name/trading name",
             "width": "*"
           },
           {
+            "ref_id": "random-ref-id-1.4.2.1",
             "text": "Phone",
             "width": "26%"
           }
@@ -322,21 +316,15 @@
           ],
           "body": [
             [{
-                "ref_id": "",
-                "text": " "
+                "ref_id": "random-ref-id-1.4.1.2",
+                "text": ""
               },
               {
                 "columns": [{
-                    "ref_id": "",
-                    "text": " ",
-                    "width": "*"
-                  },
-                  {
-                    "ref_id": "",
-                    "text": " ",
-                    "width": "60%"
-                  }
-                ]
+                  "ref_id": "random-ref-id-1.4.2.2",
+                  "text": "",
+                  "width": "*"
+                }]
               }
             ]
           ]
@@ -349,6 +337,7 @@
           0,
           0
         ],
+        "ref_id": "random-ref-id-1.5.1",
         "text": "3 Details of all people entering",
         "bold": true
       },
@@ -360,10 +349,12 @@
           0
         ],
         "columns": [{
+            "ref_id": "random-ref-id-1.5.2.1.1",
             "text": "Full name/trading name",
             "width": "*"
           },
           {
+            "ref_id": "random-ref-id-1.5.2.2.1",
             "text": "Phone",
             "width": "26%"
           }
@@ -390,26 +381,21 @@
                       5,
                       0
                     ],
+                    "ref_id": "random-ref-id-1.5.2.1.2.1.1",
                     "text": "1.",
                     "bold": true,
                     "width": "auto"
                   },
                   {
+                    "ref_id": "random-ref-id-1.5.2.1.2.1.2",
                     "text": " "
                   }
                 ]
               },
               {
-                "columns": [{
-                    "text": " ",
-                    "width": "*"
-                  },
-                  {
-                    "ref_id": "",
-                    "text": " ",
-                    "width": "60%"
-                  }
-                ]
+                "ref_id": "random-ref-id-1.5.2.2.2.1",
+                "text": " ",
+                "width": "*"
               }
             ],
             [{
@@ -420,26 +406,21 @@
                       5,
                       0
                     ],
+                    "ref_id": "random-ref-id-1.5.2.1.2.2.1",
                     "text": "2.",
                     "bold": true,
                     "width": "auto"
                   },
                   {
+                    "ref_id": "random-ref-id-1.5.2.1.2.2.2",
                     "text": " "
                   }
                 ]
               },
               {
-                "columns": [{
-                    "text": " ",
-                    "width": "*"
-                  },
-                  {
-                    "ref_id": "",
-                    "text": " ",
-                    "width": "60%"
-                  }
-                ]
+                "ref_id": "random-ref-id-1.5.2.2.2.2",
+                "text": " ",
+                "width": "*"
               }
             ],
             [{
@@ -450,26 +431,21 @@
                       5,
                       0
                     ],
+                    "ref_id": "random-ref-id-1.5.2.1.2.3.1",
                     "text": "3.",
                     "bold": true,
                     "width": "auto"
                   },
                   {
+                    "ref_id": "random-ref-id-1.5.2.1.2.3.2",
                     "text": " "
                   }
                 ]
               },
               {
-                "columns": [{
-                    "text": " ",
-                    "width": "*"
-                  },
-                  {
-                    "ref_id": "",
-                    "text": " ",
-                    "width": "60%"
-                  }
-                ]
+                "ref_id": "random-ref-id-1.5.2.2.2.3",
+                "text": " ",
+                "width": "*"
               }
             ]
           ]
@@ -495,6 +471,7 @@
         "columns": [{
             "width": "auto",
             "stack": [{
+                "ref_id": "random-ref-id-1.6.2.1.1",
                 "text": "Day",
                 "margin": [
                   0,
@@ -510,6 +487,7 @@
                   ],
                   "body": [
                     [{
+                      "ref_id": "random-ref-id-1.6.2.1.2",
                       "text": " "
                     }]
                   ]
@@ -532,6 +510,7 @@
               0
             ],
             "stack": [{
+                "ref_id": "random-ref-id-1.6.2.2.1",
                 "text": "Date",
                 "margin": [
                   0,
@@ -547,6 +526,7 @@
                   ],
                   "body": [
                     [{
+                      "ref_id": "random-ref-id-1.6.2.2.2",
                       "text": " "
                     }]
                   ]
@@ -898,7 +878,17 @@
                 }]
               },
               {
-                "text": "Check the tenant has remedied a significant breach, if a Notice to remedy breach (Form 11) has expired (24 hours notice)"
+                "text": [{
+                    "text": "Check the tenant has remedied a significant breach, if a "
+                  },
+                  {
+                    "text": "Notice to remedy breach ",
+                    "italics": true
+                  },
+                  {
+                    "text": "(Form 11) has expired (24 hours notice)"
+                  }
+                ]
               }
             ]
           }

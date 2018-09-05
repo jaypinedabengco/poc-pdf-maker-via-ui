@@ -1,7 +1,6 @@
 <template lang="pug">
     section.form-handler-label
         p {{formDefinition.value}}
-        slot(name="child-container")
 </template>
 
 <script>

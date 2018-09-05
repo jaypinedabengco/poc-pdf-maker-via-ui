@@ -1,5 +1,6 @@
 // not sure why "@/services/..." not working or viewed as error
 import formsBuilderService from "../services/PDFMakeFormsBuilderService";
+import DateService from "../services/DateService";
 import {
   _
 } from "underscore";
@@ -249,7 +250,11 @@ export default {
                   documentDefContainer.canvas.push(checkLineCanvas);
                 }
               } else if (formField.type == 'label') {
-                documentDefContainer.text = formField.value;
+                documentDefContainer.text = (formField.value == '') ? ' ' : formField.value;
+              } else if ( formField.type == 'select' ) {
+                documentDefContainer.text = (formField.value == '') ? ' ' : formField.value;
+              } else if ( formField.type == 'date-picker' ) {
+                documentDefContainer.text = DateService.formatDate(formField.value, formField.format);
               }
             });
 
