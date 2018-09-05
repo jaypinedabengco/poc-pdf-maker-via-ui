@@ -7,7 +7,7 @@ const storage_form_id_list_name = "saved-forms-id-list";
  * 
  * @param {*} id 
  */
-function _saveIdToList(id) {
+let _saveIdToList = (id) => {
   return new Promise((resolve, reject) => {
     let list = JSON.parse(localStorage.getItem(storage_form_id_list_name));
     // if null, then
@@ -18,13 +18,13 @@ function _saveIdToList(id) {
     localStorage.setItem(storage_form_id_list_name, JSON.stringify(list));
     return resolve(list);
   });
-}
+};
 
 /**
  * 
  * @param {*} id 
  */
-function _removeIdFromList(id) {
+let _removeIdFromList = (id) => {
   return new Promise((resolve, reject) => {
     let list = JSON.parse(localStorage.getItem(storage_form_id_list_name));
     // if null, then
@@ -43,12 +43,12 @@ function _removeIdFromList(id) {
     localStorage.setItem(storage_form_id_list_name, JSON.stringify(list));
     return resolve('removed');
   });
-}
+};
 
 /**
  * 
  */
-function _getAllList() {
+let _getAllList = () => {
   return new Promise((resolve) => {
     let list = JSON.parse(localStorage.getItem(storage_form_id_list_name));
     // if null, then
@@ -57,17 +57,17 @@ function _getAllList() {
     }
     return resolve(list);
   });
-}
+};
 
 /**
  * 
  */
-function _createGuid() {
-  function s4() {
+let _createGuid = () =>  {
+  let s4 = () => {
     return Math.floor((1 + Math.random()) * 0x10000)
       .toString(16)
       .substring(1);
-  }
+  };
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 

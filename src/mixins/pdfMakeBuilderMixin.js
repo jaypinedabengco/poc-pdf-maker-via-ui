@@ -46,10 +46,10 @@ export default {
         //  etc..
 
         let logo_image = "/static/sample-data/images/header-logo/rta.png";
-        // convert image to base64
-        formsBuilderService.convertImageUrlToBase64ViaFileReader(logo_image)
-          .then(image_url => {
 
+        // convert image to base64
+        formsBuilderService.convertImageUrlToBase64ViaFetch(logo_image)
+          .then(image_url => {
             let headerDefinition = {
               margin: [20, 20, 20, 10],
               table: {
@@ -97,9 +97,10 @@ export default {
               }
             };
 
-            return resolve(headerDefinition);
-
-          });
+            return headerDefinition;
+          })
+          .then(resolve)
+          .catch(reject);
       });
     },
     getDocumentContentDefinition(formDefinition) {

@@ -46,6 +46,28 @@ export default {
 
   /**
    * 
+   */
+  convertImageUrlToBase64ViaFetch(imageUrl) {
+    return new Promise((resolve, reject) => {
+      return fetch(imageUrl)
+        .then(response => response.ok ? response.blob() : Promise.reject(response))
+        .then(blob => {
+          if ( blob.type == 'text/html' ){
+            return Promise.reject(`File not found`);
+          }
+          let reader = new FileReader();
+          reader.readAsDataURL(blob); 
+          reader.onloadend = function() {
+              let base64data = reader.result;                
+              resolve(base64data);
+          };
+        })
+        .catch(reject);
+    });
+  },
+
+  /**
+   * 
    * @param {*} imageUrl 
    */
   convertImageUrlToBase64ViaCanvas(imageUrl) {
@@ -83,7 +105,7 @@ export default {
       let field_references_and_values = [];
 
       // recursive function to get all content
-      function recursiveContentGetter(childFormDefinition) {
+      let recursiveContentGetter = (childFormDefinition) => {
 
         let ref_and_value = {
           ref_id: childFormDefinition.ref_id,
@@ -104,7 +126,7 @@ export default {
             recursiveContentGetter(innerChildFormDefinition);
           });
         }
-      }
+      };
 
       // trigger
       recursiveContentGetter(formDefinition);
@@ -122,19 +144,19 @@ export default {
   getAllDocumentDefinitionObjectWithReferenceIds(documentDefinition) {
     return new Promise((resolve, reject) => {
       let objectsWithRefId = [];
-      function _getObjectsWithReferenceIds(targetObject){
+      let _getObjectsWithReferenceIds = (targetObject) => {
         // if array
-        if ( targetObject instanceof Array ){
+        if (targetObject instanceof Array) {
           targetObject.forEach(arrayContent => {
             // pass array content to recursive
             _getObjectsWithReferenceIds(arrayContent);
           });
-        } else if ( targetObject instanceof Object ) { // object && has ref_id
+        } else if (targetObject instanceof Object) { // object && has ref_id
 
           // add to list
-          if ( targetObject.ref_id ){ 
+          if (targetObject.ref_id) {
             objectsWithRefId.push(targetObject);
-          } 
+          }
 
           // loop through object contents
           let keys = Object.keys(targetObject);
