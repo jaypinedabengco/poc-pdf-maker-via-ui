@@ -13,25 +13,25 @@
 </template>
 
 <script>
-import FormHandlerContainer from "@/components/FormHandlerContainer";
-import FormHandlerLabel from "@/components/FormHandlerLabel";
-import FormHandlerText from "@/components/FormHandlerText";
-import FormHandlerCheckbox from "@/components/FormHandlerCheckbox";
-import FormHandlerSelect from "@/components/FormHandlerSelect";
-import FormHandlerDatePicker from "@/components/FormHandlerDatePicker";
+import FormHandlerContainer from '@/components/FormHandlerContainer'
+import FormHandlerLabel from '@/components/FormHandlerLabel'
+import FormHandlerText from '@/components/FormHandlerText'
+import FormHandlerCheckbox from '@/components/FormHandlerCheckbox'
+import FormHandlerSelect from '@/components/FormHandlerSelect'
+import FormHandlerDatePicker from '@/components/FormHandlerDatePicker'
 
 export default {
-  name: "FormBuilder",
-  props: ["formDefinition"],
+  name: 'FormBuilder',
+  props: ['formDefinition'],
   components: {
-      "form-handler-container": FormHandlerContainer,
-      "form-handler-label": FormHandlerLabel,
-      "form-handler-text": FormHandlerText,
-      "form-handler-checkbox": FormHandlerCheckbox, 
-      "form-handler-select": FormHandlerSelect, 
-      "form-handler-date-picker": FormHandlerDatePicker
+    'form-handler-container': FormHandlerContainer,
+    'form-handler-label': FormHandlerLabel,
+    'form-handler-text': FormHandlerText,
+    'form-handler-checkbox': FormHandlerCheckbox,
+    'form-handler-select': FormHandlerSelect,
+    'form-handler-date-picker': FormHandlerDatePicker
   }
-};
+}
 </script>
 
 <style scoped>

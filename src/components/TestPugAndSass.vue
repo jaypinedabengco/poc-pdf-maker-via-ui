@@ -12,14 +12,9 @@
 <script>
 
 export default {
-  name: "TestPugAndSass",
+  name: 'TestPugAndSass'
+}
 
-  // -- DATA
-  data() {
-    return {
-    };
-  }
-};
 </script>
 
 <style lang="scss" scoped>

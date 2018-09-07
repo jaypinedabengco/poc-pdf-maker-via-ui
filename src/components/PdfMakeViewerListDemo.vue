@@ -2,7 +2,7 @@
     div.pdfmake-viewer-list-demo
         h1 PDFMake Viewer Demo List
         h3 Add
-        li(v-for="form in forms" v-bind:key="form.id") 
+        li(v-for="form in forms" v-bind:key="form.id")
           router-link(:to="`/pdfmake/view/${form.id}`") {{form.name}}
         h3 Edit
         div(v-if="!savedForms.length")
@@ -10,67 +10,66 @@
         div(v-else)
           table
             tr
-              th 
+              th
                 | id
-              th 
+              th
                 | Form
-              th 
+              th
                 | Date Created
-              th 
+              th
                 | Date Last Updated
-              th 
-                | Actions 
-            tr(v-for="savedForm in savedForms" v-bind:key="savedForm.id") 
-              td 
+              th
+                | Actions
+            tr(v-for="savedForm in savedForms" v-bind:key="savedForm.id")
+              td
                 | {{savedForm.id}}
-              td 
+              td
                 | {{savedForm.form_name}}
               td
                 | {{savedForm.date_created_formatted}}
               td
                 | {{savedForm.date_updated_formatted || 'New'}}
               td
-                router-link(:to="`/pdfmake/view/${savedForm.form_name}/${savedForm.id}`") Edit 
-                | | 
+                router-link(:to="`/pdfmake/view/${savedForm.form_name}/${savedForm.id}`") Edit
+                | |
                 a( href="#" @click.prevent="deleteForm(savedForm.id)") Delete
-          
 </template>
 
 <script>
-import pdfMakeDemoCRUDMixin from "@/mixins/pdfMakeDemoCRUDMixin";
+import pdfMakeDemoCRUDMixin from '@/mixins/pdfMakeDemoCRUDMixin'
 
 export default {
-  name: "PdfMakeViewerListDemo",
+  name: 'PdfMakeViewerListDemo',
   mixins: [pdfMakeDemoCRUDMixin],
-  created() {
+  created () {
     // fetch from crud mixin
-    this.updateSavedListForms();
+    this.updateSavedListForms()
   },
   methods: {
-    deleteForm(formId) {
+    deleteForm (formId) {
       this.deleteFormDefinition(formId).then(() => {
         // remove from list
-        this.updateSavedListForms();
-      });
+        this.updateSavedListForms()
+      })
     },
-    updateSavedListForms() {
+    updateSavedListForms () {
       this.getAllFormDefinitions().then(formDefinitions => {
-        this.savedForms = formDefinitions;
-      });
+        this.savedForms = formDefinitions
+      })
     }
   },
-  data() {
+  data () {
     return {
       forms: [
         {
-          id: "entry-notice-form-9",
-          name: "Entry Notice Form 9"
+          id: 'entry-notice-form-9',
+          name: 'Entry Notice Form 9'
         }
       ],
       savedForms: []
-    };
+    }
   }
-};
+}
 </script>
 
 <style scoped>

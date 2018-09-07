@@ -6,9 +6,9 @@
 
 <script>
 export default {
-  name: "FormHandlerContainerText",
-  props: ["formDefinition"]
-};
+  name: 'FormHandlerContainerText',
+  props: ['formDefinition']
+}
 </script>
 
 <style scoped>

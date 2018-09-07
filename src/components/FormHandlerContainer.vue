@@ -6,13 +6,13 @@
 <script>
 
 export default {
-  name: "FormHandlerContainer",
+  name: 'FormHandlerContainer',
   props: ['formDefinition']
-};
+}
 </script>
 
 <style scoped>
-    .horizontal-children-view > * {
-        display: inline-block;
-    }
+.horizontal-children-view > * {
+  display: inline-block;
+}
 </style>

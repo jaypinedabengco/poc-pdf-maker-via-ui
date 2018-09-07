@@ -1,95 +1,97 @@
 export default {
-
   /**
-   * * inputDefinition 
+   * * inputDefinition
    *  - type (string)
    *    - 'empty' (default)
-   *    - 'line' 
+   *    - 'line'
    *    - 'dashed'
    *    - 'box'
    *  - value (string)
-   * 
-   * @param {*} inputDefinition 
+   *
+   * @param {*} inputDefinition
    */
-  buildInputText(inputDefinition) {
-    // canvas for dashed 	{canvas: [ { type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, dash: {length: 2, space: 1} } ]}
-    // canvas for line 	{canvas: [ { type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 } ]},    
-
+  buildInputText (inputDefinition) {
+    // canvas for dashed {canvas: [ { type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, dash: {length: 2, space: 1} } ]}
+    // canvas for line {canvas: [ { type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 } ]},
   },
 
   /**
-   * 
-   * @param imageUrl 
+   *
+   * @param imageUrl
    */
-  convertImageUrlToBase64ViaFileReader(imageUrl) {
+  convertImageUrlToBase64ViaFileReader (imageUrl) {
     return new Promise((resolve, reject) => {
-      var xhr = new XMLHttpRequest();
+      var xhr = new XMLHttpRequest()
       xhr.onload = function () {
-        var reader = new FileReader();
+        var reader = new FileReader()
         reader.onloadend = function () {
-          return resolve(reader.result);
-        };
-        reader.readAsDataURL(xhr.response);
-      };
+          return resolve(reader.result)
+        }
+        reader.readAsDataURL(xhr.response)
+      }
       xhr.onerror = function () {
-        return reject({
-          message: 'Something went wrong on convertImageUrlToBase64ViaFileReader',
-          xhr_status: xhr.status,
-          xhr: xhr
-        });
-      };
-      xhr.open('GET', imageUrl);
-      xhr.responseType = 'blob';
-      xhr.send();
-    });
+        return reject(
+          new Error({
+            message:
+              'Something went wrong on convertImageUrlToBase64ViaFileReader',
+            xhr_status: xhr.status,
+            xhr: xhr
+          })
+        )
+      }
+      xhr.open('GET', imageUrl)
+      xhr.responseType = 'blob'
+      xhr.send()
+    })
   },
 
   /**
-   * 
+   *
    */
-  convertImageUrlToBase64ViaFetch(imageUrl) {
+  convertImageUrlToBase64ViaFetch (imageUrl) {
     return new Promise((resolve, reject) => {
       return fetch(imageUrl)
-        .then(response => response.ok ? response.blob() : Promise.reject(response))
+        .then(
+          response => (response.ok ? response.blob() : Promise.reject(response))
+        )
         .then(blob => {
-          if (blob.type == 'text/html') {
-            return Promise.reject(`File not found`);
+          if (blob.type === 'text/html') {
+            return Promise.reject(new Error(`File not found`))
           }
-          let reader = new FileReader();
-          reader.readAsDataURL(blob);
+          let reader = new FileReader()
+          reader.readAsDataURL(blob)
           reader.onloadend = function () {
-            let base64data = reader.result;
-            resolve(base64data);
-          };
+            let base64data = reader.result
+            resolve(base64data)
+          }
         })
-        .catch(reject);
-    });
+        .catch(reject)
+    })
   },
 
   /**
-   * 
-   * @param {*} imageUrl 
+   *
+   * @param {*} imageUrl
    */
-  convertImageUrlToBase64ViaCanvas(imageUrl) {
+  convertImageUrlToBase64ViaCanvas (imageUrl) {
     return new Promise((resolve, reject) => {
-
-      let canvas = document.createElement('canvas');
-      let img = document.createElement('img');
-      img.src = imageUrl;
+      let canvas = document.createElement('canvas')
+      let img = document.createElement('img')
+      img.src = imageUrl
 
       // load
       img.onload = function () {
-        canvas.height = img.height;
-        canvas.width = img.width;
-        let base64 = canvas.toDataURL('image/png');
-        canvas = null; // clean
-        return resolve(base64);
-      };
+        canvas.height = img.height
+        canvas.width = img.width
+        let base64 = canvas.toDataURL('image/png')
+        canvas = null // clean
+        return resolve(base64)
+      }
       // if fails
       img.onerror = function (error) {
-        return reject(error);
-      };
-    });
+        return reject(error)
+      }
+    })
   },
 
   /**
@@ -97,77 +99,73 @@ export default {
    *  * ref_id
    *  * value
    *  * type
-   * @param {*} formDefinition 
+   * @param {*} formDefinition
    */
-  getAllFieldReferenceIdAndValuesFromFormDefinition(formDefinition) {
+  getAllFieldReferenceIdAndValuesFromFormDefinition (formDefinition) {
     return new Promise((resolve, reject) => {
-
-      let field_references_and_values = [];
+      let fieldReferencesAndValues = []
 
       // recursive function to get all content
-      let recursiveContentGetter = (childFormDefinition) => {
-
-        let ref_and_value = childFormDefinition;
+      let recursiveContentGetter = childFormDefinition => {
+        let refAndValue = childFormDefinition
 
         // add logic here for type based checker
-        if (ref_and_value.type == 'container') { // if container, then do nothing..
+        if (refAndValue.type === 'container') {
+          // if container, then do nothing..
         } else {
           // if text
-          // if checkbox 
-          field_references_and_values.push(ref_and_value);
+          // if checkbox
+          fieldReferencesAndValues.push(refAndValue)
         }
 
         if (childFormDefinition.children) {
           childFormDefinition.children.forEach(innerChildFormDefinition => {
-            recursiveContentGetter(innerChildFormDefinition);
-          });
+            recursiveContentGetter(innerChildFormDefinition)
+          })
         }
-      };
+      }
 
       // trigger
-      recursiveContentGetter(formDefinition);
+      recursiveContentGetter(formDefinition)
 
-      return resolve(field_references_and_values);
-
-    });
-
+      return resolve(fieldReferencesAndValues)
+    })
   },
 
   /**
-   * 
-   * @param {*} documentDefinition 
+   *
+   * @param {*} documentDefinition
    */
-  getAllDocumentDefinitionObjectWithReferenceIds(documentDefinition) {
+  getAllDocumentDefinitionObjectWithReferenceIds (documentDefinition) {
     return new Promise((resolve, reject) => {
-      let objectsWithRefId = [];
-      let _getObjectsWithReferenceIds = (targetObject) => {
+      let objectsWithRefId = []
+      let _getObjectsWithReferenceIds = targetObject => {
         // if array
         if (targetObject instanceof Array) {
           targetObject.forEach(arrayContent => {
             // pass array content to recursive
-            _getObjectsWithReferenceIds(arrayContent);
-          });
-        } else if (targetObject instanceof Object) { // object && has ref_id
+            _getObjectsWithReferenceIds(arrayContent)
+          })
+        } else if (targetObject instanceof Object) {
+          // object && has ref_id
 
           // add to list
           if (targetObject.ref_id) {
-            objectsWithRefId.push(targetObject);
+            objectsWithRefId.push(targetObject)
           }
 
           // loop through object contents
-          let keys = Object.keys(targetObject);
+          let keys = Object.keys(targetObject)
           keys.forEach(key => {
-            _getObjectsWithReferenceIds(targetObject[key]);
-          });
+            _getObjectsWithReferenceIds(targetObject[key])
+          })
         }
       }
 
       // trigger recursive object getter
-      _getObjectsWithReferenceIds(documentDefinition);
+      _getObjectsWithReferenceIds(documentDefinition)
 
-      return resolve(objectsWithRefId);
-
-    });
-  },
-
-};
+      return resolve(objectsWithRefId)
+    })
+  }
+}

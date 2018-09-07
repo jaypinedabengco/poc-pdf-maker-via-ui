@@ -4,35 +4,35 @@
 </template>
 
 <script>
-import DatePicker from "vuejs-datepicker";
-import DateService from "@/services/DateService";
+import DatePicker from 'vuejs-datepicker'
+import DateService from '@/services/DateService'
 
 export default {
-  name: "FormHandlerContainerDatePicker",
-  props: ["formDefinition"],
+  name: 'FormHandlerContainerDatePicker',
+  props: ['formDefinition'],
   components: {
-    "date-picker": DatePicker
+    'date-picker': DatePicker
   },
-  created() {
-    let format = this.formDefinition.format;
+  created () {
+    let format = this.formDefinition.format
 
     // handle library specific formatting
     if (format) {
       format = DateService.changeDateFormatForVueJSDatePicker(
         format
-      );
+      )
       // apply to data 'format'
       // which will be used on the library specific datepicker
-      this.format = format;
+      this.format = format
     }
   },
-  data() {
+  data () {
     return {
       // set default formating, based on library used
-      format: "dd/MM/yyyy"
-    };
+      format: 'dd/MM/yyyy'
+    }
   }
-};
+}
 </script>
 
 <style scoped>

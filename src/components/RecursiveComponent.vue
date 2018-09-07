@@ -17,29 +17,23 @@
 </template>
 
 <script>
-import RecursiveContainerHandler from "@/components/RecursiveContainerHandler";
+import RecursiveContainerHandler from '@/components/RecursiveContainerHandler'
 
 export default {
-  name: "RecursiveComponent",
-  props: ["recursiveData"],
+  name: 'RecursiveComponent',
+  props: ['recursiveData'],
   components: {
-      "recursive-container-handler": RecursiveContainerHandler
+    'recursive-container-handler': RecursiveContainerHandler
   },
-  created() {},
-
-  data() {
-    return {};
-  },
-
   methods: {
-    processValue(value) {
-      if (!!value) {
-        return ` With value of ${value}`;
+    processValue (value) {
+      if (value) {
+        return ` With value of ${value}`
       }
-      return "";
+      return ''
     }
   }
-};
+}
 </script>
 
 <style scoped>

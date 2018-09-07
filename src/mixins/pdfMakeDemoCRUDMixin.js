@@ -1,200 +1,230 @@
-import _ from "underscore";
-import moment from "moment";
+import _ from 'underscore'
+import moment from 'moment'
 
-const storage_form_id_list_name = "saved-forms-id-list";
+const storageFormIdListName = 'saved-forms-id-list'
 
 /**
- * 
- * @param {*} id 
+ *
+ * @param {*} id
  */
-let _saveIdToList = (id) => {
+let _saveIdToList = id => {
   return new Promise((resolve, reject) => {
-    let list = JSON.parse(localStorage.getItem(storage_form_id_list_name));
+    let list = JSON.parse(localStorage.getItem(storageFormIdListName))
     // if null, then
     if (!list) {
-      list = [];
+      list = []
     }
-    list.push(id);
-    localStorage.setItem(storage_form_id_list_name, JSON.stringify(list));
-    return resolve(list);
-  });
-};
+    list.push(id)
+    localStorage.setItem(storageFormIdListName, JSON.stringify(list))
+    return resolve(list)
+  })
+}
 
 /**
- * 
- * @param {*} id 
+ *
+ * @param {*} id
  */
-let _removeIdFromList = (id) => {
+let _removeIdFromList = id => {
   return new Promise((resolve, reject) => {
-    let list = JSON.parse(localStorage.getItem(storage_form_id_list_name));
+    let list = JSON.parse(localStorage.getItem(storageFormIdListName))
     // if null, then
     if (!list) {
-      return resolve(`id with value of ${id} not found on list`);
+      return resolve(`id with value of ${id} not found on list`)
     }
 
     // get index in list
-    let target_index = list.indexOf(id);
-    if (target_index == -1) {
-      return reject(`unable to find id with value of ${id} from list`);
+    let targetIndex = list.indexOf(id)
+    if (targetIndex === -1) {
+      return reject(
+        new Error(`unable to find id with value of ${id} from list`)
+      )
     }
 
     // remove
-    list.splice(target_index, 1);
-    localStorage.setItem(storage_form_id_list_name, JSON.stringify(list));
-    return resolve('removed');
-  });
-};
+    list.splice(targetIndex, 1)
+    localStorage.setItem(storageFormIdListName, JSON.stringify(list))
+    return resolve('removed')
+  })
+}
 
 /**
- * 
+ *
  */
 let _getAllList = () => {
-  return new Promise((resolve) => {
-    let list = JSON.parse(localStorage.getItem(storage_form_id_list_name));
+  return new Promise(resolve => {
+    let list = JSON.parse(localStorage.getItem(storageFormIdListName))
     // if null, then
     if (!list) {
-      list = [];
+      list = []
     }
-    return resolve(list);
-  });
-};
+    return resolve(list)
+  })
+}
 
 /**
- * 
+ *
  */
-let _createGuid = () =>  {
+let _createGuid = () => {
   let s4 = () => {
     return Math.floor((1 + Math.random()) * 0x10000)
       .toString(16)
-      .substring(1);
-  };
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+      .substring(1)
+  }
+  return (
+    s4() +
+    s4() +
+    '-' +
+    s4() +
+    '-' +
+    s4() +
+    '-' +
+    s4() +
+    '-' +
+    s4() +
+    s4() +
+    s4()
+  )
 }
 
 export default {
   methods: {
     /**
-     * 
-     * @param {*} id 
+     *
+     * @param {*} id
      */
-    getFormDefinition(id) {
+    getFormDefinition (id) {
       return new Promise((resolve, reject) => {
-        let formDefinition = JSON.parse(localStorage.getItem(id));
+        let formDefinition = JSON.parse(localStorage.getItem(id))
         if (!formDefinition) {
-          return reject(`id of ${id} not found`);
+          return reject(new Error(`id of ${id} not found`))
         }
-        return resolve(formDefinition);
-      });
+        return resolve(formDefinition)
+      })
     },
     /**
-     * 
+     *
      */
-    getAllFormDefinitions() {
+    getAllFormDefinitions () {
       return new Promise((resolve, reject) => {
         _getAllList()
           .then(ids => {
-            let fetchInformationsRequests = [];
+            let fetchInformationsRequests = []
             _.each(ids, id => {
               fetchInformationsRequests.push(
-                this.getFormDefinition(id)
-                .then(formDefinition => {
-                  let storageDefinition = formDefinition.storageDefinition;
+                this.getFormDefinition(id).then(formDefinition => {
+                  let storageDefinition = formDefinition.storageDefinition
 
                   // format dates
-                  storageDefinition.date_created_formatted = moment(storageDefinition.date_created).format('MM/DD/YYYY hh:mm:ss a');
-                  storageDefinition.date_updated_formatted = (!storageDefinition.date_updated) ? null : moment(storageDefinition.date_updated).format('MM/DD/YYYY hh:mm:ss a');
+                  storageDefinition.date_created_formatted = moment(
+                    storageDefinition.date_created
+                  ).format('MM/DD/YYYY hh:mm:ss a')
+                  storageDefinition.date_updated_formatted = !storageDefinition.date_updated
+                    ? null
+                    : moment(storageDefinition.date_updated).format(
+                      'MM/DD/YYYY hh:mm:ss a'
+                    )
 
-                  return formDefinition.storageDefinition;
+                  return formDefinition.storageDefinition
                 })
-              );
-            });
-            return Promise.all(fetchInformationsRequests);
+              )
+            })
+            return Promise.all(fetchInformationsRequests)
           })
           .then(formDefinitions => {
-            return formDefinitions;
+            return formDefinitions
           })
           .then(resolve)
-          .catch(reject);
-      });
+          .catch(reject)
+      })
     },
     /**
-     * 
-     * @param {*} formDefinition 
+     *
+     * @param {*} formDefinition
      */
-    saveOrUpdateFormDefinition(formName, formDefinition) {
+    saveOrUpdateFormDefinition (formName, formDefinition) {
       if (!formDefinition) {
-        return Promise.reject('formDefinition is required');
+        return Promise.reject(new Error('formDefinition is required'))
       }
       // if has storageDefinition then update
       if (formDefinition.storageDefinition) {
-        return this.updateFormDefinition(formDefinition);
+        return this.updateFormDefinition(formDefinition)
       } else {
-        return this.saveFormDefinition(formName, formDefinition);
+        return this.saveFormDefinition(formName, formDefinition)
       }
     },
     /**
-     * 
-     * @param {*} formDefinition 
+     *
+     * @param {*} formDefinition
      */
-    saveFormDefinition(formName, formDefinition) {
-      return new Promise((resolve) => {
-
-        let date_created = new Date().getTime();
-        let id = _createGuid();
+    saveFormDefinition (formName, formDefinition) {
+      return new Promise(resolve => {
+        let dateCreated = new Date().getTime()
+        let id = _createGuid()
 
         // structure
         formDefinition.storageDefinition = {
           id: id,
           form_name: formName,
-          date_created: date_created,
+          date_created: dateCreated,
           date_updated: null
-        };
-
-        // save to local storage
-        localStorage.setItem(id, JSON.stringify(formDefinition));
-
-        // add to list
-        _saveIdToList(id);
-
-        return resolve(formDefinition);
-      });
-    },
-    /**
-     * 
-     * @param {*} formDefinition 
-     */
-    updateFormDefinition(formDefinition) {
-      return new Promise((resolve, reject) => {
-        if (!formDefinition.storageDefinition) {
-          return reject(`formDefinition for update needs 'storageDefinition' object`);
         }
 
-        let formDefinitionContainer = JSON.parse(localStorage.getItem(formDefinition.storageDefinition.id));
+        // save to local storage
+        localStorage.setItem(id, JSON.stringify(formDefinition))
+
+        // add to list
+        _saveIdToList(id)
+
+        return resolve(formDefinition)
+      })
+    },
+    /**
+     *
+     * @param {*} formDefinition
+     */
+    updateFormDefinition (formDefinition) {
+      return new Promise((resolve, reject) => {
+        if (!formDefinition.storageDefinition) {
+          return reject(
+            new Error(
+              `formDefinition for update needs 'storageDefinition' object`
+            )
+          )
+        }
+
+        let formDefinitionContainer = JSON.parse(
+          localStorage.getItem(formDefinition.storageDefinition.id)
+        )
 
         if (!formDefinitionContainer) {
-          return reject(`id of ${formDefinition.storageDefinition.id} not found`);
+          return reject(
+            new Error(`id of ${formDefinition.storageDefinition.id} not found`)
+          )
         }
 
         // update date_updated
-        formDefinition.storageDefinition.date_updated = new Date().getTime();
+        formDefinition.storageDefinition.date_updated = new Date().getTime()
 
         // update to local storage
-        localStorage.setItem(formDefinition.storageDefinition.id, JSON.stringify(formDefinition));
+        localStorage.setItem(
+          formDefinition.storageDefinition.id,
+          JSON.stringify(formDefinition)
+        )
 
-        return resolve(formDefinition);
-      });
+        return resolve(formDefinition)
+      })
     },
     /**
-     * 
-     * @param {*} id 
+     *
+     * @param {*} id
      */
-    deleteFormDefinition(id) {
-      return new Promise((resolve) => {
-        localStorage.removeItem(id);
+    deleteFormDefinition (id) {
+      return new Promise(resolve => {
+        localStorage.removeItem(id)
         return _removeIdFromList(id)
           .then(() => localStorage.removeItem(id)) // remove from local storage
-          .then(() => resolve('deleted'));
-      });
+          .then(() => resolve('deleted'))
+      })
     }
   }
-};
+}

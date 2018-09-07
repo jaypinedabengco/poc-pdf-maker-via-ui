@@ -6,12 +6,8 @@
 
 <script>
 export default {
-  name: "PdfMakeCreatorDemo",
-  data() {
-    return {};
-  },
-  methods: {}
-};
+  name: 'PdfMakeCreatorDemo'
+}
 </script>
 
 <style scoped>
