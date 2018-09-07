@@ -294,6 +294,21 @@
                   "format": "MM/DD/YYYY"
                 }
               ]
+            }, {
+              "ref_id": "random-ref-id-1.6.2.3",
+              "type": "container",
+              "children": [{
+                  "ref_id": "random-ref-id-1.6.2.3.1",
+                  "type": "label",
+                  "value": "Method of issue (e.g. email, post, in person)"
+                },
+                {
+                  "ref_id": "random-ref-id-1.6.2.3.2",
+                  "type": "select",
+                  "value": "",
+                  "options": ["", "email", "post", "in person"]
+                }
+              ]
             }
           ]
         }

@@ -1,5 +1,5 @@
 <template lang="pug">
-    span#form-builder
+    span#form-builder(:class="`form-type-${formDefinition.type}`")
         //- If container, then do recursive build
         form-handler-container(v-if="formDefinition.type == 'container'" :form-definition="formDefinition")
             form-builder(slot="child-container" v-if="formDefinition.children" v-for="childFormDefinition in formDefinition.children"  v-bind:key="childFormDefinition.ref_id" :form-definition="childFormDefinition")

@@ -537,6 +537,7 @@
           {
             "width": "auto",
             "stack": [{
+                "ref_id": "random-ref-id-1.6.2.3.1",
                 "text": "Method of issue (e.g. email, post, in person)",
                 "margin": [
                   0,
@@ -552,6 +553,7 @@
                   ],
                   "body": [
                     [{
+                      "ref_id": "random-ref-id-1.6.2.3.2",
                       "text": " "
                     }]
                   ]
