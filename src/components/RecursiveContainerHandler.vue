@@ -1,4 +1,4 @@
-<template lang='pug">
+<template lang="pug">
     span
         | i'm a container
         slot(v-if="recursiveData.children" name="child-container")
@@ -7,9 +7,9 @@
 <script>
 
 export default {
-  name: "RecursiveContainerHandler',
+  name: 'RecursiveContainerHandler',
   props: ['recursiveData']
-};
+}
 </script>
 
 <style scoped>
