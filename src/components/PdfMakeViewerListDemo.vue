@@ -30,7 +30,7 @@
               td
                 | {{savedForm.formattedDateUpdated || 'New'}}
               td
-                router-link(:to="`/pdfmake/view/${savedForm.form_name}/${savedForm.id}`") Edit
+                router-link(:to="`/pdfmake/view/${savedForm.formName}/${savedForm.id}`") Edit
                 | |
                 a( href="#" @click.prevent="deleteForm(savedForm.id)") Delete
 </template>

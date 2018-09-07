@@ -74,26 +74,25 @@ export default {
   },
 
   // -- CREATED
-  created () {
-    (async () => {
-      try {
-        // set formName
-        this.formName = this.$route.params.form_name
+  async created () {
+    try {
+      // set formName
+      this.formName = this.$route.params.form_name
 
-        // get form definition , if no id, then get via api (fresh), if has one, then get from crud storage
-        this.formDefinition = await this.getFreshFormDefinition(this.formName)
+      // get form definition , if no id, then get via api (fresh), if has one, then get from crud storage
+      this.formDefinition = await this.getFreshFormDefinition(this.formName)
 
-        // if has form id, then edit mode
-        if (this.$route.params.form_id) {
-          this.formId = this.$route.params.form_id
-          // get saved content
-        }
-      } catch (error) {
-        this.formDefinition = null
-        console.log('something went wrong', error)
-        alert(error)
+      // if has form id, then edit mode
+      if (this.$route.params.form_id) {
+        this.formId = this.$route.params.form_id
+        // get saved content
+        // then prepopulate content to formDefinition
       }
-    })()
+    } catch (error) {
+      this.formDefinition = null
+      console.log('something went wrong', error)
+      alert(error)
+    }
   },
 
   // -- METHODS
