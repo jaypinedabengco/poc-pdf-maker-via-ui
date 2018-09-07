@@ -7,9 +7,8 @@
             form
                 form-builder(:form-definition="formDefinition")
             button(@click="updatePDFPreview") update preview
-            button(@click="saveOrUpdateForm") {{formId ? 'update' : 'save'}}
+            button(@click="saveOrUpdateForm") {{formDefinition.storageDefinition ? 'update' : 'save'}}
             |  {{saveOrUpdateMessage}}
-            button(@click="testExtractFormContent") test
         div#pdf-form-preview-container
             iframe(v-if="base64PreviewSrc" type="application/pdf" :src="base64PreviewSrc" width="100%;" height="800px;")
             div(v-else) building
@@ -19,9 +18,9 @@
 import * as pdfMake from 'pdfmake/build/pdfmake.js'
 import vfsFonts from 'pdfmake/build/vfs_fonts'
 import pdfMakeBuilderMixin from '@/mixins/pdfMakeBuilderMixin'
+import pdfMakeDemoCRUDMixin from '@/mixins/pdfMakeDemoCRUDMixin'
 import axios from 'axios'
 import FormBuilder from '@/components/FormBuilder'
-import FormDefinitionContentCRUD from '@/classes/FormDefinitionContentCRUD'
 
 // initialize vfsFonts, there seems
 // to be an issue with loading fonts
@@ -29,11 +28,9 @@ import FormDefinitionContentCRUD from '@/classes/FormDefinitionContentCRUD'
 let { vfs } = vfsFonts.pdfMake
 pdfMake.vfs = vfs
 
-let formDefinitionContentCRUD = new FormDefinitionContentCRUD()
-
 export default {
-  name: 'PdfMakeViewerDemo',
-  mixins: [pdfMakeBuilderMixin],
+  name: 'PdfMakeViewerDemoBackup',
+  mixins: [pdfMakeBuilderMixin, pdfMakeDemoCRUDMixin],
   components: {
     'form-builder': FormBuilder
   },
@@ -63,6 +60,7 @@ export default {
   // -- DATA
   data () {
     return {
+      isChangeOngoing: false,
       changeOngoingCheckerTimeout: null,
       formName: null,
       formId: null,
@@ -75,25 +73,26 @@ export default {
 
   // -- CREATED
   created () {
-    (async () => {
-      try {
-        // set formName
-        this.formName = this.$route.params.form_name
+    // set formName
+    this.formName = this.$route.params.form_name
+    // if has form id, then edit mode
+    if (this.$route.params.form_id) {
+      this.formId = this.$route.params.form_id
+    }
 
-        // get form definition , if no id, then get via api (fresh), if has one, then get from crud storage
-        this.formDefinition = await this.getFreshFormDefinition(this.formName)
+    // get form definition , if no id, then get via api (fresh), if has one, then get from crud storage
+    let getFormDefinitionRequest = !this.formId ? this.getFreshFormDefinition(this.formName) : this.getFormDefinition(this.formId)
 
-        // if has form id, then edit mode
-        if (this.$route.params.form_id) {
-          this.formId = this.$route.params.form_id
-          // get saved content
-        }
-      } catch (error) {
+    // get form data
+    getFormDefinitionRequest
+      // set data form definition
+      .then(formDefinition => (this.formDefinition = formDefinition))
+      .then(() => console.log('successfully fetched form'))
+      .catch(err => {
         this.formDefinition = null
-        console.log('something went wrong', error)
-        alert(error)
-      }
-    })()
+        console.log('something went wrong', err)
+        alert(err)
+      })
   },
 
   // -- METHODS
@@ -110,46 +109,40 @@ export default {
     /**
      *
      */
-    async saveOrUpdateForm () {
-      // extract form definition values and building specific contents, like type &/or format
-      let formDefinitionContent = await this.extractFieldValueFromFormDefinition(this.formDefinition)
-      // if has form id, then update
-      if (this.formId) {
-        await formDefinitionContentCRUD.update(this.formId, formDefinitionContent)
-      } else {
-        await formDefinitionContentCRUD.save(formDefinitionContent, this.formName)
-          .then(formDefinitionSave => {
-            // update id
-            this.formId = formDefinitionSave.id
-            console.log('this.formId', this.formId)
-          })
-      }
-
-      this.saveOrUpdateMessage = 'updated!'
+    saveOrUpdateForm () {
+      this.saveOrUpdateFormDefinition(this.formName, this.formDefinition).then(
+        updatedFormDefinition => {
+          this.$set(this.formDefinition['storageDefinition'], updatedFormDefinition.storageDefinition)
+          this.$forceUpdate()
+          this.saveOrUpdateMessage = 'updated!'
+        }
+      )
     },
 
     /**
      *
      */
-    async updatePDFPreview () {
-      try {
-        // get document definition from API (fresh)
-        let documentDefinition = await this.getDocDefinitionFromAPI()
-        // extract form definition values and building specific contents, like type &/or format
-        let formDefinitionValues = await this.extractFieldValueFromFormDefinition(this.formDefinition)
-
-        // update document definition based on form definition values
-        let updatedDocumentDefinition = await this.updateDocumentDefinitionBasedOnFormDefinitionContent(documentDefinition, formDefinitionValues)
-        console.log(updatedDocumentDefinition)
-        // create pdf using pdfmake
-        let createdPdf = pdfMake.createPdf(updatedDocumentDefinition)
-
-        // put converted base64 value to component data
-        this.base64PreviewSrc = await this.getPDFInBase64(createdPdf)
-      } catch (error) {
-        console.log('error', error)
-        throw error
-      }
+    updatePDFPreview () {
+      return new Promise((resolve, reject) => {
+        return (
+          Promise.resolve()
+            // will use api
+            .then(() => this.getDocDefinitionFromAPI())
+            .then(docDefinition =>
+              this.updateDocumentDefinitionBasedOnFormDefinition(
+                docDefinition,
+                this.formDefinition
+              )
+            )
+            .then(docDefinition => {
+              return this.getPDFInBase64(pdfMake.createPdf(docDefinition))
+            })
+            // set to 'pdfInBase64' data
+            .then(pdfInBase64 => (this.base64PreviewSrc = pdfInBase64))
+            .then(resolve)
+            .catch(reject)
+        )
+      })
     },
 
     /**
@@ -166,13 +159,6 @@ export default {
         .then(result => {
           return result.data
         })
-    },
-
-    testExtractFormContent () {
-      (async () => {
-        let extractedFormDefinition = await this.extractFieldValueFromFormDefinition(this.formDefinition)
-        console.log('extractedFormDefinition', extractedFormDefinition)
-      })()
     },
 
     /**

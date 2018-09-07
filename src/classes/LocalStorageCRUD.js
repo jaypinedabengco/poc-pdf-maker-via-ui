@@ -1,20 +1,41 @@
+/**
+ * @param {*} storageName
+ * @param {*} name
+ */
+let _getName = (storageName, name) => {
+  return name ? [storageName, name].join('-') : storageName
+}
 export default class LocalStorageCRUD {
   constructor (storageName) {
     this.storageName = storageName
   }
 
   /**
-   * Will use set storage name if not supplied
+   *
+   * @param {*} itemToSave
    * @param {*} name
    */
-  async saveToList (itemToSave, name = this.storageName) {
-    let list = JSON.parse(localStorage.getItem(name))
-    // if null, then
-    if (!list) {
-      list = []
-    }
-    list.push(itemToSave)
-    localStorage.setItem(name, JSON.stringify(list))
-    return list
+  async save (name, itemToSave) {
+    let storageName = _getName(this.storageName, name)
+    localStorage.setItem(storageName, JSON.stringify(itemToSave))
+    return itemToSave
+  }
+
+  /**
+   *
+   * @param {*} name
+   */
+  async get (name) {
+    let storageName = _getName(this.storageName, name)
+    return JSON.parse(localStorage.getItem(storageName))
+  }
+
+  /**
+   *
+   * @param {*} name
+   */
+  async delete (name) {
+    let storageName = _getName(this.storageName, name)
+    localStorage.removeItem(storageName)
   }
 }

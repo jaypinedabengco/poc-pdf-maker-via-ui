@@ -24,11 +24,11 @@
               td
                 | {{savedForm.id}}
               td
-                | {{savedForm.form_name}}
+                | {{savedForm.formName}}
               td
-                | {{savedForm.date_created_formatted}}
+                | {{savedForm.formattedDateCreated}}
               td
-                | {{savedForm.date_updated_formatted || 'New'}}
+                | {{savedForm.formattedDateUpdated || 'New'}}
               td
                 router-link(:to="`/pdfmake/view/${savedForm.form_name}/${savedForm.id}`") Edit
                 | |
@@ -36,26 +36,26 @@
 </template>
 
 <script>
-import pdfMakeDemoCRUDMixin from '@/mixins/pdfMakeDemoCRUDMixin'
+import FormDefinitionContentCRUD from '@/classes/FormDefinitionContentCRUD'
+
+let formDefinitionContentCRUD = new FormDefinitionContentCRUD()
 
 export default {
   name: 'PdfMakeViewerListDemo',
-  mixins: [pdfMakeDemoCRUDMixin],
   created () {
     // fetch from crud mixin
     this.updateSavedListForms()
   },
   methods: {
-    deleteForm (formId) {
-      this.deleteFormDefinition(formId).then(() => {
-        // remove from list
-        this.updateSavedListForms()
-      })
+    async deleteForm (formId) {
+      return formDefinitionContentCRUD.delete(formId)
     },
-    updateSavedListForms () {
-      this.getAllFormDefinitions().then(formDefinitions => {
-        this.savedForms = formDefinitions
-      })
+    async updateSavedListForms () {
+      formDefinitionContentCRUD.getList()
+        .then(savedForms => {
+          console.log('savedForms', savedForms)
+          this.savedForms = savedForms
+        })
     }
   },
   data () {

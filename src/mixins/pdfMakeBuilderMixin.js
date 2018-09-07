@@ -318,6 +318,73 @@ export default {
     },
 
     /**
+     * @param {*} documentDefinition
+     * @param {*} formDefinitionContent
+     */
+    async updateDocumentDefinitionBasedOnFormDefinitionContent (
+      documentDefinition,
+      formDefinitionContents
+    ) {
+      try {
+        let documentDefinitionContainers = await formsBuilderService.getAllDocumentDefinitionObjectWithReferenceIds(
+          documentDefinition
+        )
+
+        documentDefinitionContainers.forEach(documentDefinitionContainer => {
+          // get related formField from formDefinitionContents
+          let formField = _.findWhere(formDefinitionContents, {
+            ref_id: documentDefinitionContainer.ref_id
+          })
+
+          // if no mapped formfield, then considered as non existant
+          if (!formField) {
+            return // continue..
+          }
+
+          // do form type specific logic
+          // and update 'documentDefinitionContainer' content
+          if (formField.type === 'text') {
+            // if text
+            // if empty string (''), then change to ' '
+            documentDefinitionContainer.text =
+              formField.value === '' ? ' ' : formField.value
+          } else if (formField.type === 'checkbox') {
+            // if checkbox
+            // add polyline canvas if checked (value === true)
+            if (
+              formField.value &&
+              documentDefinitionContainer.canvas.length === 1
+            ) {
+              // clone canvas checkbox object
+              let checkLineCanvas = JSON.parse(
+                JSON.stringify(CANVAS_CHECK_FOR_CHECKBOX)
+              )
+              documentDefinitionContainer.canvas.push(checkLineCanvas)
+            }
+          } else if (formField.type === 'label') {
+            // if label
+            documentDefinitionContainer.text =
+              formField.value === '' ? ' ' : formField.value
+          } else if (formField.type === 'select') {
+            // if formfield
+            documentDefinitionContainer.text =
+              formField.value === '' ? ' ' : formField.value
+          } else if (formField.type === 'date-picker') {
+            // if date-picker
+            // then apply formatting
+            documentDefinitionContainer.text = DateService.formatDate(
+              formField.value,
+              formField.format
+            )
+          }
+        })
+        return documentDefinition
+      } catch (error) {
+        throw error
+      }
+    },
+
+    /**
      *
      * @param {*} documentDefinition
      * @param {*} formDefinition
@@ -356,6 +423,52 @@ export default {
           .then(resolve)
           .catch(reject)
       })
+    },
+
+    /**
+     * @param {*} formDefinition
+     */
+    async extractFieldValueFromFormDefinition (formDefinition) {
+      try {
+        let fieldReferencesAndValues = []
+
+        // recursive function to get all content
+        let recursiveContentGetter = childFormDefinition => {
+          let refAndValue = childFormDefinition
+
+          // add logic here for type based checker
+          if (refAndValue.type === 'container') {
+            // if container, then do nothing..
+          } else {
+            let refAndValueClone = JSON.parse(
+              JSON.stringify(childFormDefinition)
+            )
+
+            // we do cleanup before adding to list
+            // if has children, then delete them
+            // we only need the current form definitions content & other info,
+            // but not children
+            if (refAndValueClone.children) {
+              delete refAndValueClone.children
+            }
+
+            fieldReferencesAndValues.push(refAndValueClone)
+          }
+
+          if (childFormDefinition.children) {
+            childFormDefinition.children.forEach(innerChildFormDefinition => {
+              recursiveContentGetter(innerChildFormDefinition)
+            })
+          }
+        }
+
+        // trigger recursive function
+        recursiveContentGetter(formDefinition)
+
+        return fieldReferencesAndValues
+      } catch (error) {
+        throw error
+      }
     }
   }
 }
