@@ -17,7 +17,6 @@ export default class LocalStorageCRUD {
    */
   async save (name, itemToSave) {
     let storageName = _getName(this.storageName, name)
-    console.log(storageName, itemToSave)
     localStorage.setItem(storageName, JSON.stringify(itemToSave))
     return itemToSave
   }
