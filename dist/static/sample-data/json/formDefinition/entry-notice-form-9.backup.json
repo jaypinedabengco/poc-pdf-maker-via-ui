@@ -1,0 +1,75 @@
+{
+  "ref_id": "random-ref-id-1",
+  "type": "container",
+  "children": [
+    {
+      "ref_id": "random-ref-id-2",
+      "type": "text",
+      "value": "This is the value!"
+    },
+    {
+      "ref_id": "random-ref-id-3",
+      "type": "container",
+      "children": [
+        {
+          "ref_id": "random-ref-id-4",
+          "type": "label",
+          "value": "hello"
+        },
+        {
+          "ref_id": "random-ref-id-5",
+          "type": "text",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "ref_id": "random-ref-id-6",
+      "type": "container",
+      "children": [
+        {
+          "ref_id": "random-ref-id-7",
+          "type": "label",
+          "value": "Hello Sub Label",
+          "children": [
+            {
+              "ref_id": "random-ref-id-8",
+              "type": "text",
+              "value": "Sub Text"
+            },
+            {
+              "ref_id": "random-ref-id-9",
+              "type": "container",
+              "children": [
+                {
+                  "ref_id": "random-ref-id-10",
+                  "type": "container",
+                  "children": [
+                    {
+                      "ref_id": "random-ref-id-11",
+                      "ref_group_id": "rom-ref-group-id-1",
+                      "type": "label",
+                      "value": "1st checkbox"
+                    }
+                  ]
+                },
+                {
+                  "ref_id": "random-ref-id-12",
+                  "type": "container",
+                  "children": [
+                    {
+                      "ref_id": "random-ref-id-13",
+                      "ref_group_id": "rom-ref-group-id-1",
+                      "type": "label",
+                      "value": "2nd checkbox"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
