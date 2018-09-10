@@ -85,6 +85,9 @@ export default {
       // if has form id, then edit mode
       if (this.$route.params.form_id) {
         this.formId = this.$route.params.form_id
+
+        let fetchedFormContent = await formDefinitionContentCRUD.getContent(this.formId)
+        await this.populateContentToFormDefinition(fetchedFormContent, this.formDefinition)
         // get saved content
         // then prepopulate content to formDefinition
       }
@@ -139,7 +142,6 @@ export default {
 
         // update document definition based on form definition values
         let updatedDocumentDefinition = await this.updateDocumentDefinitionBasedOnFormDefinitionContent(documentDefinition, formDefinitionValues)
-        console.log(updatedDocumentDefinition)
         // create pdf using pdfmake
         let createdPdf = pdfMake.createPdf(updatedDocumentDefinition)
 

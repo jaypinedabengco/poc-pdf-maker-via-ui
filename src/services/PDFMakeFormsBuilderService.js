@@ -167,5 +167,89 @@ export default {
 
       return resolve(objectsWithRefId)
     })
+  },
+
+  /**
+   * Will not include 'container' type
+   * @param {*} formDefinition
+   */
+  async extractFieldsWithReferenceFromFormDefinition (formDefinition) {
+    try {
+      let fieldReferencesAndValues = []
+
+      // recursive function to get all content
+      let recursiveContentGetter = childFormDefinition => {
+        let refAndValue = childFormDefinition
+
+        // add logic here for type based checker
+        if (refAndValue.type === 'container') {
+          // if container, then do nothing..
+        } else {
+          // add to 1 layer list
+          fieldReferencesAndValues.push(childFormDefinition)
+        }
+
+        // if has children, then trigger recursive on child
+        if (childFormDefinition.children) {
+          childFormDefinition.children.map(innerChildFormDefinition => recursiveContentGetter(innerChildFormDefinition))
+          // childFormDefinition.children.forEach(innerChildFormDefinition => {
+          //   recursiveContentGetter(innerChildFormDefinition)
+          // })
+        }
+      }
+
+      // trigger recursive function
+      recursiveContentGetter(formDefinition)
+
+      return fieldReferencesAndValues
+    } catch (error) {
+      throw error
+    }
+  },
+
+  /**
+   * Will not include 'container' type
+   * @param {*} formDefinition
+   */
+  async extractClonedFieldsWithReferenceFromFormDefinition (formDefinition) {
+    try {
+      let fieldReferencesAndValues = []
+
+      // recursive function to get all content
+      let recursiveContentGetter = childFormDefinition => {
+        let refAndValue = childFormDefinition
+
+        // add logic here for type based checker
+        if (refAndValue.type === 'container') {
+          // if container, then do nothing..
+        } else {
+          let refAndValueClone = JSON.parse(JSON.stringify(childFormDefinition))
+
+          // we do cleanup before adding to list
+          // if has children, then delete them
+          // we only need the current form definitions content & other info,
+          // but not children
+          if (refAndValueClone.children) {
+            delete refAndValueClone.children
+          }
+
+          fieldReferencesAndValues.push(refAndValueClone)
+        }
+
+        if (childFormDefinition.children) {
+          childFormDefinition.children.map(recursiveContentGetter)
+          // childFormDefinition.children.forEach(innerChildFormDefinition => {
+          //   recursiveContentGetter(innerChildFormDefinition)
+          // })
+        }
+      }
+
+      // trigger recursive function
+      recursiveContentGetter(formDefinition)
+
+      return fieldReferencesAndValues
+    } catch (error) {
+      throw error
+    }
   }
 }

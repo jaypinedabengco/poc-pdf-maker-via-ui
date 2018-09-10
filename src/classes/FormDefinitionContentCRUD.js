@@ -76,7 +76,8 @@ export default class FormDefinitionContentCRUD extends LocalStorageCRUD {
   async update (id, content) {
     let formDefinitionContent = await this.get(id)
     formDefinitionContent.dateUpdated = new Date()
-    return this.save(formDefinitionContent.id, formDefinitionContent)
+    formDefinitionContent.content = content
+    return super.save(formDefinitionContent.id, formDefinitionContent)
   }
 
   /**
@@ -89,6 +90,16 @@ export default class FormDefinitionContentCRUD extends LocalStorageCRUD {
       throw new Error(`form definition with id of ${id} not found`)
     }
     return formDefinitionContent
+  }
+
+  /**
+   *
+   * @param {*} id
+   */
+  async getContent (id) {
+    return this.get(id).then(
+      formDefinitionContent => formDefinitionContent.content
+    )
   }
 
   /**
@@ -136,5 +147,33 @@ export default class FormDefinitionContentCRUD extends LocalStorageCRUD {
     }
     listOfIds.push(id)
     return super.save(this.listStorageName, listOfIds)
+  }
+
+  /**
+   *
+   * @param {*} id
+   */
+  async delete (id) {
+    return this._deleteFromList(id).then(() => super.delete(id))
+  }
+
+  /**
+   *
+   * @param {*} id
+   */
+  async _deleteFromList (id) {
+    let listOfIds = await super.get(this.listStorageName)
+
+    // if null, then initialize
+    if (!listOfIds) {
+      listOfIds = []
+    }
+
+    // remove from list
+    if (listOfIds.indexOf(id) > -1) {
+      listOfIds.splice(listOfIds.indexOf(id), 1)
+      localStorage.setItem(this.listStorageName, JSON.stringify(listOfIds))
+      return super.save(this.listStorageName, listOfIds)
+    }
   }
 }

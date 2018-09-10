@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     async deleteForm (formId) {
-      return formDefinitionContentCRUD.delete(formId)
+      return formDefinitionContentCRUD.delete(formId).then(() => this.updateSavedListForms())
     },
     async updateSavedListForms () {
       formDefinitionContentCRUD.getList()

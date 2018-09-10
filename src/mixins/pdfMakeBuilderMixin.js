@@ -25,9 +25,17 @@ const CANVAS_CHECK_FOR_CHECKBOX = {
 
 export default {
   methods: {
+    /**
+     *
+     * @param {*} doc
+     */
     convertJSONToDocDefinition (doc) {
       return new Promise((resolve, reject) => {})
     },
+    /**
+     *
+     * @param {*} documentDefinition
+     */
     getPDFInBase64 (documentDefinition) {
       return new Promise((resolve, reject) => {
         documentDefinition.getDataUrl(dataUrl => {
@@ -35,6 +43,10 @@ export default {
         })
       })
     },
+    /**
+     *
+     * @param {*} formDefinition
+     */
     getDocumentHeaderDefinition (formDefinition) {
       return new Promise((resolve, reject) => {
         // hard coded
@@ -107,17 +119,13 @@ export default {
           .catch(reject)
       })
     },
+    /**
+     *
+     * @param {*} formDefinition
+     */
     getDocumentContentDefinition (formDefinition) {
       return new Promise((resolve, reject) => {
         let contentDefinition = []
-
-        // hard coded
-        // form_body.forEach(form => {
-        //   // if input
-        //   if (form.type === "text") {
-        //     contentDefinition.push(formsBuilderService.buildInputText(form));
-        //   }
-        // });
 
         contentDefinition = [
           {
@@ -210,6 +218,10 @@ export default {
         return resolve(contentDefinition)
       })
     },
+    /**
+     *
+     * @param {*} formDefinition
+     */
     getDocumentFooterDefinition (formDefinition) {
       return new Promise((resolve, reject) => {
         // hard coded
@@ -429,44 +441,44 @@ export default {
      * @param {*} formDefinition
      */
     async extractFieldValueFromFormDefinition (formDefinition) {
+      return formsBuilderService.extractClonedFieldsWithReferenceFromFormDefinition(
+        formDefinition
+      )
+    },
+
+    /**
+     *
+     * @param {*} content
+     * @param {*} formDefinition
+     */
+    async populateContentToFormDefinition (contents, formDefinition) {
       try {
-        let fieldReferencesAndValues = []
-
-        // recursive function to get all content
-        let recursiveContentGetter = childFormDefinition => {
-          let refAndValue = childFormDefinition
-
-          // add logic here for type based checker
-          if (refAndValue.type === 'container') {
-            // if container, then do nothing..
-          } else {
-            let refAndValueClone = JSON.parse(
-              JSON.stringify(childFormDefinition)
-            )
-
-            // we do cleanup before adding to list
-            // if has children, then delete them
-            // we only need the current form definitions content & other info,
-            // but not children
-            if (refAndValueClone.children) {
-              delete refAndValueClone.children
-            }
-
-            fieldReferencesAndValues.push(refAndValueClone)
-          }
-
-          if (childFormDefinition.children) {
-            childFormDefinition.children.forEach(innerChildFormDefinition => {
-              recursiveContentGetter(innerChildFormDefinition)
+        let formDefinitionFields = await formsBuilderService.extractFieldsWithReferenceFromFormDefinition(
+          formDefinition
+        )
+        console.log(contents, formDefinitionFields)
+        _.each(contents, content => {
+          console.log(
+            'checking out this content',
+            content,
+            formDefinitionFields
+          )
+          if (content.ref_id) {
+            let formField = _.findWhere(formDefinitionFields, {
+              ref_id: content.ref_id
             })
+            console.log(content, formField)
+
+            // populate based on formField type (if same)
+            if (formField.type === 'label') {
+              // if label, then do nothing
+            } else if (formField.type === content.type) {
+              formField.value = content.value
+            }
           }
-        }
-
-        // trigger recursive function
-        recursiveContentGetter(formDefinition)
-
-        return fieldReferencesAndValues
+        })
       } catch (error) {
+        console.log('populateContentToFormDefinition', error)
         throw error
       }
     }
