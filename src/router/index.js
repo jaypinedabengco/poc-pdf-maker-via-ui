@@ -8,6 +8,7 @@ import PdfMakeCreatorDemo from '@/components/PdfMakeCreatorDemo'
 import ErrorNotFound from '@/components/ErrorNotFound'
 import TestPugAndSass from '@/components/TestPugAndSass'
 import RecursiveComponentClient from '@/components/RecursiveComponentClient'
+import TestVuex from '@/components/TestVuex'
 
 Vue.use(Router)
 
@@ -54,6 +55,10 @@ export default new Router({
     {
       path: '/recursive-client-test',
       component: RecursiveComponentClient
+    },
+    {
+      path: '/test-vuex',
+      component: TestVuex
     },
     {
       path: '/404',
