@@ -8,7 +8,7 @@ import DatePicker from 'vuejs-datepicker'
 import DateService from '@/services/DateService'
 
 export default {
-  name: 'FormHandlerContainerDatePicker',
+  name: 'FormHandlerDatePicker',
   props: ['formDefinition'],
   components: {
     'date-picker': DatePicker

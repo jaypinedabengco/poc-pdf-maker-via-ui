@@ -87,6 +87,7 @@ export default {
         this.formId = this.$route.params.form_id
 
         let fetchedFormContent = await formDefinitionContentCRUD.getContent(this.formId)
+        console.log('fetchedFormContent', fetchedFormContent)
         await this.populateContentToFormDefinition(fetchedFormContent, this.formDefinition)
         // get saved content
         // then prepopulate content to formDefinition

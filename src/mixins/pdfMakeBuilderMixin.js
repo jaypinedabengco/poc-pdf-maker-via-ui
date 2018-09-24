@@ -388,6 +388,14 @@ export default {
               formField.value,
               formField.format
             )
+          } else if (formField.type === 'digital-signature' && formField.value) {
+            console.log(formField.type, documentDefinitionContainer, formField)
+
+            // if still text, then remove this (workaround)
+            if (documentDefinitionContainer.text !== undefined) {
+              delete documentDefinitionContainer.text
+            }
+            documentDefinitionContainer.image = formField.value
           }
         })
         return documentDefinition
@@ -406,8 +414,6 @@ export default {
       formDefinition
     ) {
       return new Promise((resolve, reject) => {
-        console.log(documentDefinition, formDefinition)
-
         // get field values
         formsBuilderService
           .getAllFieldReferenceIdAndValuesFromFormDefinition(formDefinition)
@@ -456,19 +462,11 @@ export default {
         let formDefinitionFields = await formsBuilderService.extractFieldsWithReferenceFromFormDefinition(
           formDefinition
         )
-        console.log(contents, formDefinitionFields)
         _.each(contents, content => {
-          console.log(
-            'checking out this content',
-            content,
-            formDefinitionFields
-          )
           if (content.ref_id) {
             let formField = _.findWhere(formDefinitionFields, {
               ref_id: content.ref_id
             })
-            console.log(content, formField)
-
             // populate based on formField type (if same)
             if (formField.type === 'label') {
               // if label, then do nothing
