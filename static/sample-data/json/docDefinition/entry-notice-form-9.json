@@ -729,7 +729,7 @@
                     "ref_id": "random-ref-id-1.7.2",
                     "text": " ", 
                     "_comment": " This field will be changed from 'text' to 'image'",
-                    "fit": [100, 100]
+                    "fit": [150, 150]
                   }
                 ]
               }

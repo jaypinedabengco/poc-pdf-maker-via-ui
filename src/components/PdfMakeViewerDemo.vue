@@ -6,10 +6,11 @@
         div#pdf-form-container(v-if="formDefinition")
             form
                 form-builder(:form-definition="formDefinition")
-            button(@click="updatePDFPreview") update preview
-            button(@click="saveOrUpdateForm") {{formId ? 'update' : 'save'}}
-            |  {{saveOrUpdateMessage}}
-            button(@click="testExtractFormContent") test
+            div.button-container
+              button(@click="updatePDFPreview") update preview
+              button(@click="saveOrUpdateForm") {{formId ? 'update' : 'save'}}
+              |  {{saveOrUpdateMessage}}
+              button(@click="testExtractFormContent") test
         div#pdf-form-preview-container
             iframe(v-if="base64PreviewSrc" type="application/pdf" :src="base64PreviewSrc" width="100%;" height="800px;")
             div(v-else) building
@@ -209,4 +210,11 @@ export default {
 </script>
 
 <style scoped>
+#pdf-form-container {
+  padding: 20px;
+}
+
+.button-container {
+  margin-top: 15px;
+}
 </style>
