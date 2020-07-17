@@ -8,6 +8,7 @@
         form-handler-checkbox(v-else-if="formDefinition.type == 'checkbox'" :form-definition="formDefinition")
         form-handler-select(v-else-if="formDefinition.type == 'select'" :form-definition="formDefinition")
         form-handler-date-picker(v-else-if="formDefinition.type == 'date-picker'" :form-definition="formDefinition")
+        form-handler-digital-signature(v-else-if="formDefinition.type == 'digital-signature'" :form-definition="formDefinition")
         span(v-else)
             | unknown type of {{formDefinition.type}}
 </template>
@@ -19,6 +20,7 @@ import FormHandlerText from '@/components/FormHandlerText'
 import FormHandlerCheckbox from '@/components/FormHandlerCheckbox'
 import FormHandlerSelect from '@/components/FormHandlerSelect'
 import FormHandlerDatePicker from '@/components/FormHandlerDatePicker'
+import FormHandlerDigitalSignature from '@/components/FormHandlerDigitalSignature'
 
 export default {
   name: 'FormBuilder',
@@ -29,7 +31,8 @@ export default {
     'form-handler-text': FormHandlerText,
     'form-handler-checkbox': FormHandlerCheckbox,
     'form-handler-select': FormHandlerSelect,
-    'form-handler-date-picker': FormHandlerDatePicker
+    'form-handler-date-picker': FormHandlerDatePicker,
+    'form-handler-digital-signature': FormHandlerDigitalSignature
   }
 }
 </script>
